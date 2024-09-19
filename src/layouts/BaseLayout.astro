@@ -2,6 +2,8 @@
 import "@/styles/globals.css";
 import "@fontsource-variable/jetbrains-mono";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/lib/consts";
+import Header from "@/components/Header.astro";
+import ThemeHeadScript from "@/components/theme-head-script.astro";
 
 const { title = ponktoku.dev } = Astro.props;
 ---
@@ -14,9 +16,12 @@ const { title = ponktoku.dev } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title} | {SITE_TITLE}</title>
+
+    <!-- Scripts -->
+    <ThemeHeadScript />
   </head>
   <body>
-    <header></header>
+    <Header />
 
     <main class="">
       <slot />
