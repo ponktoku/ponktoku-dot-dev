@@ -5,19 +5,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { MoonIcon, SunIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import { useStore } from "@nanostores/react";
+import { THEME_MAP, themeStore, type ThemeKey } from "@/lib/stores/theme";
 
 export default function ThemeDropdown() {
-  const onClickLight = () => {
-    document.documentElement.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-  };
-
-  const onClickDark = () => {
-    document.documentElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  };
+  const theme = useStore(themeStore);
 
   return (
     <DropdownMenu>
@@ -29,8 +22,20 @@ export default function ThemeDropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={onClickLight}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={onClickDark}>Dark</DropdownMenuItem>
+        {/* Map over each key in THEME_MAP object creating a menu-item for each themeKey */}
+        {Object.keys(THEME_MAP).map((key) => {
+          const themeKey = key as ThemeKey;
+          return (
+            <DropdownMenuItem
+              key={key}
+              className="justify-between capitalize"
+              onClick={() => themeStore.set(THEME_MAP[themeKey])}
+            >
+              {themeKey}
+              {theme === THEME_MAP[themeKey] && <DotFilledIcon />}
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
