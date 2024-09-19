@@ -1,0 +1,27 @@
+---
+import "@/styles/globals.css";
+import "@fontsource-variable/jetbrains-mono";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/lib/consts";
+
+const { title = ponktoku.dev } = Astro.props;
+---
+
+<!-- TODO: Make the html lang dynamic depending on i18n -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | {SITE_TITLE}</title>
+  </head>
+  <body>
+    <header></header>
+
+    <main class="">
+      <slot />
+    </main>
+
+    <footer></footer>
+  </body>
+</html>
