@@ -1,21 +1,44 @@
 ---
 import "@/styles/globals.css";
 import "@fontsource-variable/jetbrains-mono";
-import { SITE_TITLE, SITE_DESCRIPTION } from "@/lib/consts";
+import { SITE_TITLE, SITE_DESCRIPTION, TWITTER_ACCOUNT } from "@/lib/consts";
+
 import Header from "@/components/Header.astro";
 import ThemeHeadScript from "@/components/theme-head-script.astro";
+import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
+import {
+  useTranslations,
+  LOCALES,
+  getLocalePaths,
+  type Lang,
+} from "@/lib/i18n";
+const t = useTranslations(Astro.currentLocale as Lang);
 
-const { title = ponktoku.dev } = Astro.props;
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+// TODO: Add Astro.frontmatter access? Was getting an error? Don't know why
+const { title = ponktoku.dev, description } = Astro.props;
+
+const locale = Astro.currentLocale as Lang;
+const localeTitle = title ? `${title} | ${t(SITE_TITLE)}` : t(SITE_TITLE);
+const localeDescription = description || t(SITE_DESCRIPTION);
 ---
 
-<!-- TODO: Make the html lang dynamic depending on i18n -->
+<!-- TODO: Make the html lang dynamic depending on i18n, broken because I don't have the routes setup -->
 <html lang="en">
+  <!-- <html lang={LOCALES[locale].lang || locale}> -->
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | {SITE_TITLE}</title>
+    <meta name="description" content={localeDescription} />
+    <title>{localeTitle}</title>
+
+    <LocaleHtmlHead />
 
     <!-- Scripts -->
     <ThemeHeadScript />
