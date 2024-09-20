@@ -1,0 +1,66 @@
+---
+import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+const t = useTranslations(Astro.currentLocale as Lang);
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const locale = Astro.currentLocale as Lang;
+
+/* 
+  This getStaticPaths function generates a separate page for each language defined in the LOCALES object.
+  Allows for Astro to create static routes for each language at build time.
+  Ensures that [lang] dynamic route parameter is properly populated with valid language codes
+*/
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+
+<BaseLayout>
+  <section>
+    <div>
+      <h1>Danny Bao</h1>
+      <!-- Card here -->
+    </div>
+
+    <div>
+      <h2>{t({ en: "About me", ja: "個人の情報" })}</h2>
+      <p>
+        {
+          t({
+            en: "Hey 👋, I'm Danny. Online I go by the name of ponktoku.",
+            ja: "こんにちは 👋、私の名前はダニーです。オンラインではponktokuという名前で活動しています。",
+          })
+        }
+      </p>
+
+      <p>
+        {t({ en: "Hello", ja: "こんにちは" })}
+        <span class="font-bold text-red-500">
+          {t({ en: "World", ja: "世界" })}
+        </span>
+        <span>
+          {
+            t({
+              en: "Software",
+              ja: "ソフトウェア",
+            })
+          }
+        </span>
+      </p>
+    </div>
+
+    <div>
+      <h2>{t({ en: "Favourite Tech", ja: "好きな技術" })}</h2>
+    </div>
+
+    <div>
+      <h2>{t({ en: "Recent Posts", ja: "最近ブログ" })}</h2>
+    </div>
+
+    <div>
+      <h2>{t({ en: "Recent Notes", ja: "最近ノート" })}</h2>
+    </div>
+  </section>
+</BaseLayout>
