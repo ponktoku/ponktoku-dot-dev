@@ -1,5 +1,11 @@
 ---
 import ThemeDropdown from "./theme-dropdown";
+import LocaleSelectSingle from "./i18n/LocaleSelectSingle.astro";
+import { useTranslations, type Lang } from "@/lib/i18n";
+import { getRelativeLocaleUrl } from "astro:i18n";
+const t = useTranslations(Astro.currentLocale as Lang);
+
+const locale = Astro.currentLocale as Lang;
 ---
 
 <header>
@@ -18,6 +24,7 @@ import ThemeDropdown from "./theme-dropdown";
     </nav>
 
     <div>
+      <LocaleSelectSingle client:load />
       <ThemeDropdown client:load />
     </div>
   </div>

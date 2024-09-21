@@ -4,6 +4,7 @@
 
 import { LOCALES } from "@/lib/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { GlobeIcon } from "@radix-ui/react-icons";
 
 console.assert(
   Object.keys(LOCALES).length === 2,
@@ -21,7 +22,8 @@ const anotherLang =
     anotherLang,
     Astro.url.pathname.replace(/^\/[a-zA-Z-]+/, ""),
   )}
+  class="inline-block bg-neutral-400 bg-opacity-10 p-0.5 text-center opacity-70 hover:opacity-100 dark:bg-[#161616]"
 >
-  <span class="material-icons-sharp">translate</span>
+  <GlobeIcon className="m-0 inline-block p-0 align-middle" />
   {LOCALES[anotherLang].label}
 </a>
