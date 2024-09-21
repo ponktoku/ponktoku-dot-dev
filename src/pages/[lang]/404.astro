@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALES, localeParams, useTranslations, type Lang } from "@/lib/i18n";
+const t = useTranslations(Astro.currentLocale as Lang);
+
+const title = t({
+  en: "Page Not Found",
+  ja: "ページが見つかりません",
+});
+
+// Generate pages for all supported locales
+export const getStaticPaths = () => localeParams;
+---
+
+<BaseLayout>
+  <section>
+    <h1>
+      <b>404</b>
+      {title}
+    </h1>
+
+    <p>
+      {
+        t({
+          en: "The page you are looking for could not be found. Return to HOME or try another language.",
+          ja: "お探しのページは見つかりませんでした。ホームページに戻るか、他の言語でお試しください。",
+        })
+      }
+    </p>
+
+    <a href="/">
+      {
+        t({
+          en: "cd ~/HOME",
+          ja: "cd ~/ホームページ",
+        })
+      }
+    </a>
+  </section>
+</BaseLayout>
+
+<!-- Script to handle language switching and maintain 
+  correct path when users access non-existing pages -->
+<script is:inline>
+  if (localStorage.userAccessPath) {
+    history.replaceState("", "", localStorage.userAccessPath);
+
+    document.querySelectorAll("a[data-lang-path]").forEach((a) => {
+      const pathnames = localStorage.userAccessPath.split("/");
+      const lang = a.getAttribute("data-lang-path");
+      pathnames[1] = lang;
+      a.href = pathnames.join("/");
+    });
+
+    localStorage.removeItem("userAccessPath");
+  }
+</script>
