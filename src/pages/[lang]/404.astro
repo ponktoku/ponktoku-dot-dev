@@ -1,7 +1,6 @@
 ---
-import type { GetStaticPaths } from "astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { LOCALES, localeParams, useTranslations, type Lang } from "@/lib/i18n";
+import { localeParams, useTranslations, type Lang } from "@/lib/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
 
 const title = t({
