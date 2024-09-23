@@ -40,17 +40,17 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <title>{localeTitle}</title>
 
     <LocaleHtmlHead />
-
-    <!-- Scripts -->
     <ThemeHeadScript />
   </head>
   <body>
-    <Header />
+    <section class="mx-auto max-w-screen-md" id="base-section">
+      <Header />
 
-    <main class="">
-      <slot />
-    </main>
+      <main class="px-6">
+        <slot />
+      </main>
 
-    <footer></footer>
+      <footer></footer>
+    </section>
   </body>
 </html>
