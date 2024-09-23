@@ -1,31 +1,87 @@
 ---
+import LocaleDropdown from "./locale-dropdown";
 import ThemeDropdown from "./theme-dropdown";
-import LocaleSelectSingle from "./i18n/LocaleSelectSingle.astro";
 import { useTranslations, type Lang } from "@/lib/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
 
 const locale = Astro.currentLocale as Lang;
+const currentPath = Astro.url.pathname;
+const firstPath = currentPath.split(`/${locale}`)[1];
+
+console.log(currentPath, locale, firstPath);
 ---
 
-<header>
+<!-- <header class="flex flex-row justify-around">
   <div>
     <span>ponktoku.dev</span>
+  </div>
+
+  <nav>
+    <ul class="flex gap-4">
+      <li>
+        <a href={getRelativeLocaleUrl(locale, "/writing")}
+          >{t({ en: "Writing", ja: "ブログ" })}
+        </a>
+      </li>
+
+      <li>
+        <a href={getRelativeLocaleUrl(locale, "/notes")}
+          >{t({ en: "Notes", ja: "ノート" })}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div>
+    <LocaleSelectSingle />
+    <ThemeDropdown client:load />
+  </div>
+</header> -->
+<header class="my-6 bg-red-400 px-6 sm:px-0">
+  <!-- Desktop menu -->
+  <section class="flex flex-row justify-between px-6">
+    <h2>
+      <a href={getRelativeLocaleUrl(locale, "/")}>ponktoku.dev</a>
+    </h2>
 
     <nav>
-      <ul>
+      <ul class="flex gap-4">
         <li>
-          <a href="">Writing</a>
+          <a href={getRelativeLocaleUrl(locale, "/writing")}
+            >{t({ en: "Writing", ja: "ブログ" })}
+          </a>
         </li>
+
         <li>
-          <a href="">Notes</a>
+          <a href={getRelativeLocaleUrl(locale, "/notes")}
+            >{t({ en: "Notes", ja: "ノート" })}
+          </a>
+        </li>
+
+        <li>
+          <a href={getRelativeLocaleUrl(locale, "/works")}
+            >{t({ en: "Works", ja: "プロジェクト" })}
+          </a>
+        </li>
+
+        <li>
+          <a href={getRelativeLocaleUrl(locale, "/explore")}
+            >{t({ en: "Explore", ja: "探検する" })}
+          </a>
         </li>
       </ul>
     </nav>
 
     <div>
-      <LocaleSelectSingle />
+      <LocaleDropdown
+        url={Astro.url}
+        currentLocale={Astro.currentLocale as Lang}
+        client:load
+      />
       <ThemeDropdown client:load />
     </div>
-  </div>
+  </section>
+
+  <!-- Mobile menu -->
 </header>
