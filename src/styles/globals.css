@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: "JetBrains Mono Variable", sans-serif;
 }
@@ -113,6 +121,7 @@ body {
     @apply border-border;
   }
   body {
+    @apply m-0 min-h-screen p-0;
     @apply bg-background text-foreground;
   }
 }
