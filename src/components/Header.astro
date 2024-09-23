@@ -43,7 +43,13 @@ console.log(currentPath, locale, firstPath);
   <!-- Desktop menu -->
   <section class="flex flex-row justify-between px-6">
     <h2
-      class="self-center hover:text-hool-turquoise-300 dark:hover:text-ak-blue"
+      class={cn(
+        "self-center hover:text-hool-turquoise-300 dark:hover:text-ak-blue",
+        {
+          "text-hool-turquoise-300 dark:text-ak-blue dark:hover:text-ak-blue-two hover:text-hool-turquoise-400":
+            firstPath === "/",
+        },
+      )}
     >
       <a href={getRelativeLocaleUrl(locale, "/")}>ponktoku.dev</a>
     </h2>
