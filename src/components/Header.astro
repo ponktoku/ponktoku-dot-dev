@@ -4,6 +4,7 @@ import ThemeDropdown from "./theme-dropdown";
 import { useTranslations, type Lang } from "@/lib/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
+import { cn } from "@/lib/utils";
 
 const locale = Astro.currentLocale as Lang;
 const currentPath = Astro.url.pathname;
@@ -38,48 +39,72 @@ console.log(currentPath, locale, firstPath);
     <ThemeDropdown client:load />
   </div>
 </header> -->
-<header class="my-6 bg-red-400 px-6 sm:px-0">
+<header class="my-6 px-6 sm:px-0">
   <!-- Desktop menu -->
   <section class="flex flex-row justify-between px-6">
-    <h2>
+    <h2
+      class="self-center hover:text-hool-turquoise-300 dark:hover:text-ak-blue"
+    >
       <a href={getRelativeLocaleUrl(locale, "/")}>ponktoku.dev</a>
     </h2>
 
-    <nav>
-      <ul class="flex gap-4">
-        <li>
-          <a href={getRelativeLocaleUrl(locale, "/writing")}
-            >{t({ en: "Writing", ja: "ブログ" })}
-          </a>
-        </li>
+    <div class="flex gap-6 self-center">
+      <nav class="self-center">
+        <ul class="flex gap-4">
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/blog/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/blog")}
+              >{t({ en: "Blog", ja: "ブログ" })}
+            </a>
+          </li>
 
-        <li>
-          <a href={getRelativeLocaleUrl(locale, "/notes")}
-            >{t({ en: "Notes", ja: "ノート" })}
-          </a>
-        </li>
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/notes/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/notes")}
+              >{t({ en: "Notes", ja: "ノート" })}
+            </a>
+          </li>
 
-        <li>
-          <a href={getRelativeLocaleUrl(locale, "/works")}
-            >{t({ en: "Works", ja: "プロジェクト" })}
-          </a>
-        </li>
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/works/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/works")}
+              >{t({ en: "Works", ja: "プロジェクト" })}
+            </a>
+          </li>
 
-        <li>
-          <a href={getRelativeLocaleUrl(locale, "/explore")}
-            >{t({ en: "Explore", ja: "探検する" })}
-          </a>
-        </li>
-      </ul>
-    </nav>
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/explore/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/explore")}
+              >{t({ en: "Explore", ja: "探検する" })}
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-    <div>
-      <LocaleDropdown
-        url={Astro.url}
-        currentLocale={Astro.currentLocale as Lang}
-        client:load
-      />
-      <ThemeDropdown client:load />
+      <div class="m-0 p-0">
+        <LocaleDropdown
+          url={Astro.url}
+          currentLocale={Astro.currentLocale as Lang}
+          client:load
+        />
+        <ThemeDropdown client:load />
+      </div>
     </div>
   </section>
 
