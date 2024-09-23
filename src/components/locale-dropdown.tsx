@@ -6,6 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { GlobeIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import { HeroiconsLanguage } from "./ui/icons";
 import { getLocalePaths, LOCALES } from "@/lib/i18n";
 
 // Use optional currentLocale prop for locale text in button (not used otherwise)
@@ -27,7 +28,7 @@ export default function LocaleDropdown({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <GlobeIcon className="h-5 w-5" />
+          <HeroiconsLanguage className="h-5 w-5" />
           <span className="sr-only">select language</span>
         </Button>
       </DropdownMenuTrigger>
