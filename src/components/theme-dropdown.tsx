@@ -5,7 +5,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoonIcon, SunIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import { DotFilledIcon } from "@radix-ui/react-icons";
+import { SunIcon, MoonIcon } from "./ui/icons";
 import { useStore } from "@nanostores/react";
 import { THEME_MAP, themeStore, type ThemeKey } from "@/lib/stores/theme";
 
