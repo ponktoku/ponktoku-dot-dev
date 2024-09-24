@@ -39,12 +39,14 @@ console.log(currentPath, locale, firstPath);
     <ThemeDropdown client:load />
   </div>
 </header> -->
-<header class="my-6 px-6 sm:px-0">
+<header
+  class="text-hool-text-emphasis my-6 px-6 dark:text-ak-black-500 sm:px-0"
+>
   <!-- Desktop menu -->
   <section class="flex flex-row justify-between px-6">
     <h2
       class={cn(
-        "self-center hover:text-hool-turquoise-300 dark:hover:text-ak-blue",
+        "self-center hover:text-hool-turquoise-300 dark:hover:text-ak-blue text-lg font-bold",
         {
           "text-hool-turquoise-300 dark:text-ak-blue dark:hover:text-ak-blue-two hover:text-hool-turquoise-400":
             firstPath === "/",
@@ -55,7 +57,7 @@ console.log(currentPath, locale, firstPath);
     </h2>
 
     <div class="flex gap-6 self-center">
-      <nav class="self-center">
+      <nav class="self-center text-sm">
         <ul class="flex gap-4">
           <li
             class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
