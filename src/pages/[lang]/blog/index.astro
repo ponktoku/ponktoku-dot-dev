@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
+import { getCollection } from "astro:content";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+
+const title = t({
+  en: "Blog",
+  ja: "ブログ",
+});
+
+// Think about what is the dynamic part
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+
+<BaseLayout title={title}>
+  <h1>This is the blog page</h1>
+</BaseLayout>
