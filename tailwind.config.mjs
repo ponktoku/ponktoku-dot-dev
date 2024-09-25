@@ -43,6 +43,7 @@ export default {
         "hool-grey": "hsl(var(--hool-grey))",
         "hool-grey-light": "hsl(var(--hool-grey-light))",
         "hool-text": "hsl(var(--hool-text))",
+        "hool-text-emphasis": "hsl(var(--hool-text-emphasis))",
         // dark mode
         "ak-black": {
           100: "hsl(var(--ak-black-100))",
