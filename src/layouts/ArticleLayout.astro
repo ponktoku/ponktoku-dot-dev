@@ -1,0 +1,20 @@
+---
+// Layout for blog posts and notes (Content Collection)
+// Nested in Base layout
+
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  frontmatter?: undefined;
+}
+
+const { title, description } = Astro.props.frontmatter || Astro.props;
+---
+
+<BaseLayout {title} {description}>
+  <article>
+    <slot />
+  </article>
+</BaseLayout>

@@ -10,7 +10,7 @@ const locale = Astro.currentLocale as Lang;
 const currentPath = Astro.url.pathname;
 const firstPath = currentPath.split(`/${locale}`)[1];
 
-console.log(currentPath, locale, firstPath);
+// console.log(currentPath, locale, firstPath);
 ---
 
 <!-- <header class="flex flex-row justify-around">
@@ -40,7 +40,7 @@ console.log(currentPath, locale, firstPath);
   </div>
 </header> -->
 <header
-  class="text-hool-text-emphasis my-6 px-6 dark:text-ak-black-500 sm:px-0"
+  class="my-6 px-6 text-hool-text-emphasis dark:text-ak-black-500 sm:px-0"
 >
   <!-- Desktop menu -->
   <section class="flex flex-row justify-between px-6">
