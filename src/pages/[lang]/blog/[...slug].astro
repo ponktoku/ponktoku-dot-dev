@@ -1,3 +1,51 @@
 ---
+// This file is responsible for the display of the Content (blog posts)
 
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import Prose from "@/components/Prose.astro";
+
+type Props = {
+  post: CollectionEntry<"blog">;
+};
+
+export async function getStaticPaths() {
+  const posts: CollectionEntry<"blog">[] = await getCollection("blog");
+
+  return posts.map((post) => {
+    const [lang, ...slug] = post.slug.split("/");
+    return { params: { lang, slug: slug.join("/") || undefined }, props: post };
+  });
+}
+
+const { lang }: { lang: string } = Astro.params;
+const post = Astro.props;
+
+if (!post) {
+  return Astro.redirect(`/${lang}/404`);
+}
+
+// TODO: Fix types
+const { Content } = await post.render();
+const title: string = post.data.title;
 ---
+
+<ArticleLayout {title}>
+  <h1 class="mt-14 mb-1 text-2xl font-bold dark:text-ak-blue text-hool-turquoise-300">{post.data.title}</h1>
+  <h2 class="mb-1 dark:text-ak-black-400">{post.data.description}</h2>
+  <div class="mb-14">
+    <time class="text-sm text-hool-grey-light dark:text-ak-black-400">{post.data.pubDate}</time>
+    {
+      post.data.updatedDate ? (
+        <span>Updated:</span>
+        <time>{post.data.updatedDate}</time>
+      ) : (
+        ""
+      )
+    }
+  </div>
+
+  <Prose>
+    <Content />
+  </Prose>
+</ArticleLayout>
