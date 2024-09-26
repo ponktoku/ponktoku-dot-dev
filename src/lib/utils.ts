@@ -5,6 +5,35 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function multiFormatDate(date: Date, variant?: string): string {
+  let options: Intl.DateTimeFormatOptions = {};
+  switch (variant) {
+    case "numeric":
+      options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      };
+      break;
+    case "short":
+      options = {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
+      break;
+    default:
+      options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+      break;
+  }
+
+  return new Date(date).toLocaleDateString(undefined, options);
+}
+
 export function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
