@@ -4,6 +4,7 @@
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "@/components/Prose.astro";
+import { formatDate } from "@/lib/utils"
 
 type Props = {
   post: CollectionEntry<"blog">;
@@ -25,25 +26,39 @@ if (!post) {
   return Astro.redirect(`/${lang}/404`);
 }
 
-// TODO: Fix types
+// TODO: Find issue with types and fix 
 const { Content } = await post.render();
 const title: string = post.data.title;
+const date = formatDate(post.data.pubDate);
 ---
 
 <ArticleLayout {title}>
   <h1 class="mt-14 mb-1 text-2xl font-bold dark:text-ak-blue text-hool-turquoise-300">{post.data.title}</h1>
-  <h2 class="mb-1 dark:text-ak-black-400">{post.data.description}</h2>
-  <div class="mb-14">
-    <time class="text-sm text-hool-grey-light dark:text-ak-black-400">{post.data.pubDate}</time>
+  <h2 class="mb-1 dark:text-ak-black-400">{post.data.description}</h2>  
+
+  {lang === "en" && (<div class="mb-14">
+    <time datetime={post.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{date}</time>
     {
       post.data.updatedDate ? (
-        <span>Updated:</span>
-        <time>{post.data.updatedDate}</time>
+        <span class="text-sm text-hool-grey-light dark:text-ak-black-400">Updated: </span>
+        <time datetime={post.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{formatDate(post.data.updatedDate)}</time>
       ) : (
         ""
       )
     }
-  </div>
+  </div>)}
+
+{lang === "ja" && (<div class="mb-14">
+  <time datetime={post.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{post.data.pubDate.toLocaleDateString(lang)}</time>
+  {
+    post.data.updatedDate ? (
+      <span class="text-sm text-hool-grey-light dark:text-ak-black-400">更新: </span>
+      <time datetime={post.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{formatDate(post.data.updatedDate.toLocaleDateString(lang))}</time>
+    ) : (
+      ""
+    )
+  }
+</div>)}
 
   <Prose>
     <Content />
