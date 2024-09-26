@@ -53,7 +53,7 @@ const date = formatDate(post.data.pubDate);
   {
     post.data.updatedDate ? (
       <span class="text-sm text-hool-grey-light dark:text-ak-black-400">更新: </span>
-      <time datetime={post.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{formatDate(post.data.updatedDate.toLocaleDateString(lang))}</time>
+      <time datetime={post.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{post.data.updatedDate.toLocaleDateString(lang)}</time>
     ) : (
       ""
     )
