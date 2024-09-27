@@ -11,22 +11,22 @@ export function multiFormatDate(date: Date, variant?: string): string {
     case "numeric":
       options = {
         year: "numeric",
-        month: "numeric",
-        day: "numeric",
+        month: "2-digit",
+        day: "2-digit",
       };
       break;
     case "short":
       options = {
         year: "numeric",
         month: "short",
-        day: "numeric",
+        day: "2-digit",
       };
       break;
     default:
       options = {
         year: "numeric",
         month: "long",
-        day: "numeric",
+        day: "2-digit",
       };
       break;
   }
