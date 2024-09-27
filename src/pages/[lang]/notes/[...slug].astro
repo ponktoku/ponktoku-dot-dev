@@ -1,0 +1,78 @@
+---
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import Prose from "@/components/Prose.astro";
+import { multiFormatDate } from "@/lib/utils"
+
+type Props = {
+  note: CollectionEntry<"notes">;
+};
+
+export async function getStaticPaths() {
+  const notes: CollectionEntry<"notes">[] = await getCollection("notes");
+
+  return notes.map((note) => {
+    const [lang, ...slug] = note.slug.split("/");
+    return { params: { lang, slug: slug.join("/") || undefined }, props: note };
+  });
+}
+
+const { lang }: { lang: string } = Astro.params;
+const note = Astro.props;
+
+if (!note) {
+  return Astro.redirect(`/${lang}/404`);
+}
+
+const { Content } = await note.render();
+const title: string = note.data.title;
+const date = multiFormatDate(note.data.pubDate);
+
+---
+
+<ArticleLayout {title}>
+  <section class="mt-14">
+    <ul class="flex gap-2 mb-5 flex-wrap">
+      {
+        note.data.tags.map((tag) => {
+          return (
+            <li>
+              <a href={`/${lang}/tag/${tag}`} class="transition-colors dark:bg-ak-black-300 py-1 px-3 rounded-full dark:hover:bg-hool-white-200 dark:hover:text-hool-text-emphasis bg-hool-white-200 cursor-pointer hover:bg-hool-white-300">{tag}</a>
+            </li>
+          )
+        })
+      }
+    </ul>
+
+    <h1 class="mb-1 text-2xl font-bold dark:text-ak-blue text-hool-turquoise-300">{note.data.title}</h1>
+    <h2 class="mb-1 dark:text-ak-black-400">{note.data.description}</h2>  
+  
+    {lang === "en" && (<div class="mb-14">
+      <time datetime={note.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{date}</time>
+      {
+        note.data.updatedDate ? (
+          <span class="text-sm text-hool-grey-light dark:text-ak-black-400">Updated: </span>
+          <time datetime={note.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{multiFormatDate(note.data.updatedDate)}</time>
+        ) : (
+          ""
+        )
+      }
+    </div>)}
+  
+    {lang === "ja" && (<div class="mb-14">
+      <time datetime={note.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{note.data.pubDate.toLocaleDateString(lang)}</time>
+      {
+        note.data.updatedDate ? (
+          <span class="text-sm text-hool-grey-light dark:text-ak-black-400">更新: </span>
+          <time datetime={note.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{note.data.updatedDate.toLocaleDateString(lang)}</time>
+        ) : (
+          ""
+        )
+      }
+    </div>)}
+  </section>
+
+  <Prose>
+    <Content />
+  </Prose>
+</ArticleLayout>
