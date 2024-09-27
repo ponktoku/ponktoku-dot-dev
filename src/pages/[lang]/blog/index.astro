@@ -48,10 +48,18 @@ export const getStaticPaths = () =>
               >
                 <span class="font-semibold">{post.data.title}</span>
                 {locale === "ja" && (
-                  <time>{post.data.pubDate.toLocaleDateString(locale)}</time>
+                  <time
+                    datetime={post.data.pubDate.toISOString()}
+                    class="text-sm, mt-0.5 whitespace-nowrap"
+                  >
+                    {post.data.pubDate.toLocaleDateString(locale)}
+                  </time>
                 )}
                 {locale === "en" && (
-                  <time datetime="" class="mt-0.5 text-sm">
+                  <time
+                    datetime={post.data.pubDate.toISOString()}
+                    class="text-sm, mt-0.5 whitespace-nowrap"
+                  >
                     {capitaliseAll(multiFormatDate(post.data.pubDate, "short"))}
                   </time>
                 )}
