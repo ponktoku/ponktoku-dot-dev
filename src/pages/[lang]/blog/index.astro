@@ -44,7 +44,7 @@ export const getStaticPaths = () =>
             <li class="border-b border-hool-white-300 dark:border-ak-black-300">
               <a
                 href={`/${locale}/blog/${slug.join("/")}/`}
-                class="flex cursor-pointer flex-col items-start justify-between py-2 transition-colors hover:text-hool-turquoise-300 dark:hover:text-hool-white-100 sm:flex-row sm:items-center sm:py-4"
+                class="flex cursor-pointer flex-col items-start justify-between py-2 transition-colors hover:bg-hool-white-200 hover:text-hool-turquoise-300 dark:hover:bg-ak-black-200 dark:hover:text-hool-white-100 sm:flex-row sm:items-center sm:py-4"
               >
                 <span class="font-semibold">{post.data.title}</span>
                 {locale === "ja" && (
