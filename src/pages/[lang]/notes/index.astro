@@ -1,0 +1,81 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
+import { getCollection } from "astro:content";
+import { multiFormatDate, capitaliseAll } from "@/lib/utils";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+
+const allNotes = (await getCollection("notes"))
+  .filter((note) => note.slug.split("/")[0] === locale)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = t({
+  en: "Notes",
+  ja: "ノート",
+});
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+
+<BaseLayout title={title}>
+  <h2 class="text-2xl font-bold text-ak-black-100 dark:text-hool-white-100">
+    {
+      t({
+        en: "NOTES",
+        ja: "ノート",
+      })
+    }
+  </h2>
+  <h3 class="text-sm">SPACE FOR RECORDING USEFUL KNOWLEDGE</h3>
+
+  <section class="m-auto my-8 mb-12">
+    <ul>
+      {
+        allNotes.map((note, index, notes) => {
+          const [, ...slug] = note.slug.split("/");
+          const year = new Date(note.data.pubDate).getFullYear();
+          const prevNote = notes[index - 1];
+          const prevYear =
+            prevNote && new Date(prevNote.data.pubDate).getFullYear();
+          const showYear = year !== prevYear;
+
+          const formattedDate = multiFormatDate(
+            note.data.pubDate,
+            "month-day",
+            locale,
+          );
+
+          return (
+            <li class="group transition">
+              {showYear ? (
+                <div class="my-4 mb-2 flex items-center gap-2">
+                  <time class="-mx-1 flex-grow-0 rounded-md px-1 text-hool-white-300 transition group-hover:bg-hool-white-200 group-hover:text-black dark:text-ak-black-400 group-hover:dark:bg-ak-black-200 group-hover:dark:text-white">
+                    {year}
+                  </time>
+                  <div class="h-[1px] flex-grow bg-hool-white-300 dark:bg-ak-black-300" />
+                </div>
+              ) : (
+                ""
+              )}
+
+              <a
+                href={`/${locale}/notes/${slug.join("/")}`}
+                class="group/link -mx-2 -my-1 rounded-md px-2 py-1 transition hover:bg-hool-white-200 hover:text-black hover:dark:bg-ak-black-200 hover:dark:text-white"
+              >
+                <span>{note.data.title}</span>
+                <time class="text-sm text-hool-grey-light group-hover/link:text-hool-text dark:text-ak-black-400 group-hover/link:dark:text-ak-black-500">
+                  {formattedDate}
+                </time>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+</BaseLayout>
