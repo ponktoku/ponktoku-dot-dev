@@ -5,7 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function multiFormatDate(date: Date, variant?: string): string {
+export function multiFormatDate(
+  date: Date,
+  variant?: string,
+  locale?: string | undefined,
+): string {
   let options: Intl.DateTimeFormatOptions = {};
   switch (variant) {
     case "numeric":
@@ -22,6 +26,12 @@ export function multiFormatDate(date: Date, variant?: string): string {
         day: "2-digit",
       };
       break;
+    case "month-day":
+      options = {
+        month: "2-digit",
+        day: "2-digit",
+      };
+      break;
     default:
       options = {
         year: "numeric",
@@ -31,7 +41,7 @@ export function multiFormatDate(date: Date, variant?: string): string {
       break;
   }
 
-  return new Date(date).toLocaleDateString(undefined, options);
+  return new Date(date).toLocaleDateString(locale, options);
 }
 
 export function formatDate(date: Date): string {
