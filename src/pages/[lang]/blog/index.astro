@@ -16,7 +16,6 @@ const title = t({
   ja: "ブログ",
 });
 
-// Think about what is the dynamic part
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({
     params: { lang },
