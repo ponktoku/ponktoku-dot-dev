@@ -1,0 +1,22 @@
+---
+type Props = {
+  title: string;
+  date: Date;
+  url: string;
+  showYear?: boolean;
+};
+
+const { title, date, url, showYear } = Astro.props;
+const year = new Date(date).getFullYear();
+const month = new Date(date).getMonth() + 1;
+const day = new Date(date).getDate();
+---
+
+<li class="transition-[background-color] hover:bg-gray-100 active:bg-gray-200">
+  <a href={url}>
+    <span class="grid grid-cols-8 gap-2 border-t border-gray-200 py-4">
+      <time class="col-span-1 text-gray-500">{showYear ? year : ""}</time>
+      <span class="col-span-7">{title}</span>
+    </span>
+  </a>
+</li>
