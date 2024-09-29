@@ -1,0 +1,91 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import NoteCard from "@/components/NoteCard.astro";
+import { type Lang, useTranslations } from "@/lib/i18n";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+
+type Props = {
+  notes: CollectionEntry<"notes">[];
+};
+
+export async function getStaticPaths() {
+  const notes: CollectionEntry<"notes">[] = await getCollection("notes");
+  const paths: {
+    params: { lang: Lang; tag: string };
+    props: { notes: CollectionEntry<"notes">[] };
+  }[] = [];
+
+  // Group notes by language
+  const notesByLang: Record<Lang, CollectionEntry<"notes">[]> = notes.reduce(
+    (acc, note) => {
+      const [lang] = note.slug.split("/") as [Lang, ...string[]];
+      if (!acc[lang]) acc[lang] = [];
+      acc[lang].push(note);
+      return acc;
+    },
+    {} as Record<Lang, CollectionEntry<"notes">[]>,
+  );
+
+  // Generate paths for each language and tag
+  for (const [lang, localizedNotes] of Object.entries(notesByLang)) {
+    const uniqueTags = [
+      ...new Set(localizedNotes.flatMap((note) => note.data.tags)),
+    ];
+
+    for (const tag of uniqueTags) {
+      paths.push({
+        params: { lang, tag },
+        props: {
+          notes: localizedNotes.filter((note) => note.data.tags.includes(tag)),
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const params = Astro.params;
+const { tag } = params;
+
+if (!tag) throw new Error("Tag is required in params");
+
+const { notes } = Astro.props;
+---
+
+<BaseLayout>
+  <h2 class="text-2xl font-bold text-hool-text-emphasis dark:text-white">
+    {tag}
+  </h2>
+  <h3 class="text-sm text-hool-grey dark:text-ak-black-400">
+    {t({ en: "Explore my notes on", ja: "このタグのノートを探す" })}
+    {tag}.
+  </h3>
+
+  <section class="m-auto my-8 mb-12">
+    <ul>
+      {
+        notes.map((note, index, notes) => {
+          const [, ...slug] = note.slug.split("/");
+          const year = new Date(note.data.pubDate).getFullYear();
+          const prevNote = notes[index - 1];
+          const prevYear =
+            prevNote && new Date(prevNote.data.pubDate).getFullYear();
+          const showYear = year !== prevYear;
+
+          return (
+            <NoteCard
+              title={note.data.title}
+              date={note.data.pubDate}
+              url={`/${locale}/notes/${slug.join("/")}`}
+              showYear={showYear}
+            />
+          );
+        })
+      }
+    </ul>
+  </section>
+</BaseLayout>
