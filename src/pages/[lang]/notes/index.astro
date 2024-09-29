@@ -2,7 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
 import { getCollection } from "astro:content";
-import { multiFormatDate, capitaliseAll } from "@/lib/utils";
 import NoteCard from "@/components/NoteCard.astro";
 
 const locale = Astro.currentLocale as Lang;
