@@ -1,0 +1,42 @@
+---
+import { multiFormatDate } from "@/lib/utils";
+
+type Props = {
+  title: string;
+  date: Date;
+  url: string;
+  showYear?: boolean;
+};
+
+const { title, date, url, showYear } = Astro.props;
+const year = new Date(date).getFullYear();
+
+const formattedDate = multiFormatDate(date, "month-day");
+---
+
+<li class="group my-2 transition">
+  {
+    showYear ? (
+      <div class="my-4 mb-2 flex items-center gap-2">
+        <time class="-mx-1 flex-grow-0 rounded-md px-1 text-hool-white-300 transition group-hover:bg-hool-white-200 group-hover:text-black dark:text-ak-black-400 group-hover:dark:bg-ak-black-200 group-hover:dark:text-white">
+          {year}
+        </time>
+        <div class="h-[1px] flex-grow bg-hool-white-300 dark:bg-ak-black-300" />
+      </div>
+    ) : (
+      ""
+    )
+  }
+
+  <a
+    href={url}
+    class="group/link -mx-2 -my-1 rounded-md px-2 py-1 transition hover:bg-hool-white-200 hover:text-black hover:dark:bg-ak-black-200 hover:dark:text-white"
+  >
+    <span>{title}</span>
+    <time
+      class="text-sm text-hool-grey-light group-hover/link:text-hool-text dark:text-ak-black-400 group-hover/link:dark:text-ak-black-500"
+    >
+      {formattedDate}
+    </time>
+  </a>
+</li>
