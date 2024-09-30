@@ -31,6 +31,10 @@ export async function getStaticPaths() {
 
   // Generate paths for each language and tag
   for (const [lang, localizedNotes] of Object.entries(notesByLang)) {
+    localizedNotes.sort(
+      (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
+
     const uniqueTags = [
       ...new Set(localizedNotes.flatMap((note) => note.data.tags)),
     ];
@@ -57,7 +61,7 @@ const { notes } = Astro.props;
 ---
 
 <BaseLayout>
-  <h2 class="text-2xl font-bold text-hool-text-emphasis dark:text-white">
+  <h2 class="font-bold3 text-2xl text-hool-text-emphasis dark:text-white">
     {tag}
   </h2>
   <h3 class="text-sm text-hool-grey dark:text-ak-black-400">
