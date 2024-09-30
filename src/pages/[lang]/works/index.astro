@@ -1,0 +1,128 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
+import WorksCard from "@/components/WorksCard.astro";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+
+const title = t({
+  en: "Works",
+  ja: "作品",
+});
+
+const worksEn = [
+  {
+    title: "Wordwise",
+    description: "University project to access validity of machine translation",
+    image: "/images/hool.png",
+    url: "/en/works/wordwise",
+    showLinkSvg: true,
+    workBadge: "early access product",
+  },
+  {
+    title: "ponktoku.dev",
+    description: "A website based on Arknights character",
+    image: "/images/hool.png",
+    url: "/en/works/ponktoku-dev",
+    showLinkSvg: false,
+    workBadge: "client project",
+  },
+];
+
+const worksJa = [
+  {
+    title: "ヲードフアイズ",
+    description: "University project to access validity of machine translation",
+    image: "/images/hool.png",
+    url: "/en/works/wordwise",
+    showLinkSvg: true,
+    workBadge: "early access product",
+  },
+  {
+    title: "ponktoku.dev",
+    description: "A website based on Arknights character",
+    image: "/images/hool.png",
+    url: "/en/works/ponktoku-dev",
+    showLinkSvg: false,
+    workBadge: "client project",
+  },
+];
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+
+<BaseLayout {title}>
+  <h2 class="text-2xl font-bold text-ak-black-100 dark:text-hool-white-100">
+    {
+      t({
+        en: "WORKS",
+        ja: "作品",
+      })
+    }
+  </h2>
+  <h3 class="text-sm">SPACE FOR CREATIONS</h3>
+
+  <section class="mt-10">
+    <h2
+      class="mb-1 text-xs font-medium text-hool-grey-light dark:text-ak-black-400 max-lg:mt-4 lg:opacity-80"
+    >
+      {t({ en: "SELECTED WORK", ja: "選定作品" })}
+    </h2>
+
+    {
+      locale === "en" && (
+        <div>
+          {worksEn.map((work, index) => {
+            return (
+              <WorksCard
+                index={index}
+                title={work.title}
+                description={work.description}
+                url={work.url}
+                showLinkSvg={work.showLinkSvg}
+                image={work.image}
+                workBadge={work.workBadge}
+                className="dark:group-hover:text-ak-blue group-hover:text-hool-turquoise-300"
+              />
+            );
+          })}
+        </div>
+      )
+    }
+
+    {
+      locale === "ja" && (
+        <div>
+          {worksJa.map((work, index) => {
+            return (
+              <WorksCard
+                index={index}
+                title={work.title}
+                description={work.description}
+                url={work.url}
+                showLinkSvg={work.showLinkSvg}
+                image={work.image}
+                workBadge={work.workBadge}
+                className="dark:group-hover:text-ak-blue group-hover:text-hool-turquoise-300"
+              />
+            );
+          })}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="mt-10">
+    <h2
+      class="mb-1 text-xs font-medium text-hool-grey-light dark:text-ak-black-400 max-lg:mt-4 lg:opacity-80"
+    >
+      {t({ en: "CRAFTS", ja: "クラフト" })}
+    </h2>
+
+    {t({ en: "To be added...", ja: "追加予定。。。" })}
+  </section>
+</BaseLayout>
