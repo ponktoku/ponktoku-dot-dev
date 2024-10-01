@@ -1,0 +1,78 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
+import { getCollection } from "astro:content";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+
+const notes = (await getCollection("notes")).filter(
+  (post) => post.slug.split("/")[0] === locale,
+);
+
+const tagCounts = notes.reduce(
+  (acc, note) => {
+    note.data.tags.forEach((tag) => {
+      acc[tag] = (acc[tag] || 0) + 1;
+    });
+    return acc;
+  },
+  {} as Record<string, number>,
+);
+
+const sortedTags = Object.entries(tagCounts)
+  .sort(([, a], [, b]) => b - a)
+  .map(([tag, count]) => ({ tag, count }));
+
+const title = t({
+  en: "Explore",
+  ja: "探検する",
+});
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+
+<BaseLayout {title}>
+  <h2 class="text-2xl font-bold text-ak-black-100 dark:text-hool-white-100">
+    {
+      t({
+        en: "EXPLORE",
+        ja: "探検する",
+      })
+    }
+  </h2>
+  <h3 class="text-sm">SPACE FOR EXPLORING MY NOTES</h3>
+
+  <section class="m-auto my-8 mb-12">
+    <h3
+      class="mb-2 text-xs font-medium text-hool-grey-light dark:text-ak-black-400 max-lg:mt-4 lg:opacity-80"
+    >
+      {t({ en: "NOTES BY TAG", ja: "ノートのタグ" })}
+    </h3>
+    <div class="flex flex-wrap">
+      {
+        sortedTags.map(({ tag, count }) => (
+          <a
+            href={`/${locale}/tag/${tag}`}
+            class="mb-2 mr-2 cursor-pointer rounded-lg bg-hool-white-200 px-3 py-1.5 transition-colors hover:bg-hool-white-300 dark:bg-ak-black-300 dark:hover:bg-hool-white-200 dark:hover:text-hool-text-emphasis"
+          >
+            {tag}
+            <span class="text-neutral-500 dark:text-neutral-500">{count}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="m-auto my-8 mb-12">
+    <h3
+      class="mb-2 text-xs font-medium text-hool-grey-light dark:text-ak-black-400 max-lg:mt-4 lg:opacity-80"
+    >
+      {t({ en: "SEARCH", ja: "検索" })}
+    </h3>
+    <div>In development...</div>
+  </section>
+</BaseLayout>
