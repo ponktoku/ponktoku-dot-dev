@@ -1,7 +1,11 @@
 ---
+// To edit the list of selected works
+// Edit the worksEn and worksJa constants in @/lib/consts.ts
+
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
 import WorksCard from "@/components/WorksCard.astro";
+import { worksEn, worksJa } from "@/lib/consts";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
@@ -10,62 +14,6 @@ const title = t({
   en: "Works",
   ja: "作品",
 });
-
-const worksEn = [
-  {
-    title: "Wordwise",
-    description:
-      "University project to assess the validity of machine translation",
-    image: "@/assets/works/wordwise_01.png",
-    url: "/en/works/wordwise",
-    showLinkSvg: true,
-    workBadge: "uni project",
-  },
-  {
-    title: "ponktoku.dev",
-    description: "My first website that I put on the internet",
-    image: "@/assets/works/homepage_thumb.jpeg",
-    url: "/en/works/ponktoku-dev",
-    showLinkSvg: false,
-    workBadge: "personal project",
-  },
-  {
-    title: "ponktoku.dev.v2",
-    description: "It's the website you're seeing right now",
-    image: "/images/hool.png",
-    url: "/en/works/ponktoku-dev-v2",
-    showLinkSvg: false,
-    workBadge: "personal project",
-  },
-];
-
-const worksJa = [
-  {
-    title: "ワードワイズ",
-    description:
-      "University project to assess the validity of machine translation",
-    image: "@/assets/works/wordwise_01.png",
-    url: "/en/works/wordwise",
-    showLinkSvg: true,
-    workBadge: "uni project",
-  },
-  {
-    title: "ponktoku.dev",
-    description: "My first website that I put on the internet",
-    image: "@/assets/works/homepage_thumb.jpeg",
-    url: "/en/works/ponktoku-dev",
-    showLinkSvg: false,
-    workBadge: "personal project",
-  },
-  {
-    title: "ponktoku.dev.v2",
-    description: "It's the website you're seeing right now",
-    image: "/images/hool.png",
-    url: "/en/works/ponktoku-dev-v2",
-    showLinkSvg: false,
-    workBadge: "personal project",
-  },
-];
 
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({
