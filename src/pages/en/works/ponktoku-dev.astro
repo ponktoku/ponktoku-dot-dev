@@ -1,0 +1,139 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { useTranslations, type Lang } from "@/lib/i18n";
+import { worksEn } from "@/lib/consts";
+import Figure from "@/components/Figure.astro";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+
+const title = t({
+  en: "ponktoku.dev",
+  ja: "ponktoku.dev (ポンクトク.デブ)",
+});
+
+const wordWiseDescription = worksEn.find(
+  (work) => work.title === "ponktoku-dev",
+)?.description;
+
+const wordWiseDetails = {
+  Role: "Developer",
+  "Tech Stack": "Astro, Tailwind CSS, HTML5, CSS, TypeScript, Flowbite",
+};
+---
+
+<BaseLayout {title}>
+  <section class="mb-4">
+    <div>
+      <h1
+        class="text-2xl font-bold text-hool-turquoise-300 dark:text-ak-blue md:text-3xl"
+      >
+        ponktoku.dev
+        <span class="text-sm">(2024)</span>
+      </h1>
+      <p class="font-semibold md:text-xl">{wordWiseDescription}</p>
+    </div>
+    <ul class="mt-5 flex flex-col gap-4">
+      {
+        Object.entries(wordWiseDetails).map(([key, value]) => (
+          <li>
+            <span class="rounded-sm bg-hool-turquoise-100 px-1 py-0.5 text-center text-sm text-hool-turquoise-500 dark:bg-ak-blue-two dark:text-neutral-50 md:text-base">
+              [{key}]
+            </span>
+            <span class="block text-sm md:text-base">{value}</span>
+          </li>
+        ))
+      }
+
+      <li>
+        <span
+          class="rounded-sm bg-hool-turquoise-100 px-1 py-0.5 text-center text-sm text-hool-turquoise-500 dark:bg-ak-blue-two dark:text-neutral-50 md:text-base"
+        >
+          [Source]
+        </span>
+        <a
+          href="https://github.com/DannyBoy5930/ponktoku-homepage"
+          class="block text-sm text-hool-turquoise-300 underline underline-offset-1 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two md:text-base"
+          target="_blank"
+          rel="noopener noreferrer"
+          >https://github.com/DannyBoy5930/ponktoku-homepage
+          <span class="inline-block w-[0.9em]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              height="100%"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="currentColor"
+                d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03L9.28 7.78a.751.751 0 0 1-1.042-.018a.751.751 0 0 1-.018-1.042l3.75-3.75l-1.543-1.543A.25.25 0 0 1 10.604 1"
+              ></path>
+            </svg>
+          </span>
+        </a>
+      </li>
+
+      <!-- Blogpost -->
+      <li>
+        <span
+          class="rounded-sm bg-hool-turquoise-100 px-1 py-0.5 text-center text-sm text-hool-turquoise-500 dark:bg-ak-blue-two dark:text-neutral-50 md:text-base"
+        >
+          [Blog post]
+        </span>
+        <a
+          href="/blog/building-my-first-astro-website"
+          class="block text-sm text-hool-turquoise-300 underline underline-offset-1 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two md:text-base"
+          >Building my first Astro website
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <div class="h-0.5 bg-hool-white-300 dark:bg-ak-black-300"></div>
+
+  <section class="mt-4">
+    <div>
+      <p class="mb-4">
+        My personal website which contains information about myself, my works
+        and a blog post. The design/look takes inspiration from other homepages
+        and portfolios but is mainly based off Takuya Matsuyama's homepage
+        however this website is built with Astrojs instead. I hope to continue
+        updating this website as time goes along and make blog posts
+        (hopefully). Thanks for stopping by!
+      </p>
+
+      <p>
+        Edit(2024): HAHAHA I only updated the blog twice before rebuilding the
+        entire site
+      </p>
+
+      <Figure
+        imagePath="/src/assets/works/homepage_thumb.jpeg"
+        altText="Screenshot of ponktoku.dev (version 1)"
+        figureClass="my-5"
+        title="Home page of ponktoku.dev (version 1)"
+        description="![Access at](old.ponktoku.dev)"
+      />
+
+      <Figure
+        imagePath="/src/assets/works/homepage_01.jpg"
+        altText="VSCode and home page"
+        figureClass="my-5"
+        description="Love the Solarized Osaka Theme"
+      />
+
+      <Figure
+        imagePath="/src/assets/works/homepage_02.jpg"
+        altText="ponktoku.dev blog page"
+        figureClass="my-5"
+      />
+
+      <Figure
+        imagePath="/src/assets/works/homepage_03.jpeg"
+        altText="Widescreen dev environment"
+        figureClass="my-5"
+        description="Showing off usual dev environment with lazygit, vscode and browser"
+      />
+    </div>
+  </section>
+</BaseLayout>
