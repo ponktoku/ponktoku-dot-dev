@@ -20,7 +20,7 @@ export const NOT_TRANSLATED_CAUTION: string | Multilingual = {
 // Works
 export const worksEn = [
   {
-    title: "Wordwise",
+    title: "WordWise",
     description:
       "University project to assess the validity of machine translation",
     image: "@/assets/works/wordwise_01.png",
