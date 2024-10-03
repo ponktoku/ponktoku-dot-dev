@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { GlobeIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import { DotFilledIcon } from "@radix-ui/react-icons";
 import { HeroiconsLanguage } from "./ui/icons";
 import { getLocalePaths, LOCALES } from "@/lib/i18n";
 
