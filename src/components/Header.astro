@@ -9,40 +9,11 @@ import { cn } from "@/lib/utils";
 const locale = Astro.currentLocale as Lang;
 const currentPath = Astro.url.pathname;
 const firstPath = currentPath.split(`/${locale}`)[1];
-
-// console.log(currentPath, locale, firstPath);
 ---
 
-<!-- <header class="flex flex-row justify-around">
-  <div>
-    <span>ponktoku.dev</span>
-  </div>
-
-  <nav>
-    <ul class="flex gap-4">
-      <li>
-        <a href={getRelativeLocaleUrl(locale, "/writing")}
-          >{t({ en: "Writing", ja: "ブログ" })}
-        </a>
-      </li>
-
-      <li>
-        <a href={getRelativeLocaleUrl(locale, "/notes")}
-          >{t({ en: "Notes", ja: "ノート" })}
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-  <div>
-    <LocaleSelectSingle />
-    <ThemeDropdown client:load />
-  </div>
-</header> -->
-<header
+<!-- <header
   class="my-6 px-6 text-hool-text-emphasis dark:text-ak-black-500 sm:px-0"
 >
-  <!-- Desktop menu -->
   <section class="flex flex-row justify-between px-6">
     <h2
       class={cn(
@@ -115,6 +86,146 @@ const firstPath = currentPath.split(`/${locale}`)[1];
       </div>
     </div>
   </section>
+</header> -->
+<header
+  class="z-50 my-6 max-w-screen-md px-6 text-hool-text-emphasis dark:text-ak-black-500 md:px-6"
+>
+  <section class="flex flex-row justify-between">
+    <h2
+      class={cn(
+        "self-center hover:text-hool-turquoise-300 dark:hover:text-ak-blue text-lg font-bold z-50",
+        {
+          "text-hool-turquoise-300 dark:text-ak-blue dark:hover:text-ak-blue-two hover:text-hool-turquoise-400":
+            firstPath === "/",
+        },
+      )}
+    >
+      <a href={getRelativeLocaleUrl(locale, "/")}>ponktoku.dev</a>
+    </h2>
+
+    <div class="flex gap-6 self-center">
+      <nav class="hidden self-center text-sm md:block">
+        <!-- Existing navigation items -->
+        <ul class="flex gap-4">
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/blog/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/blog")}
+              >{t({ en: "Blog", ja: "ブログ" })}
+            </a>
+          </li>
+
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/notes/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/notes")}
+              >{t({ en: "Notes", ja: "ノート" })}
+            </a>
+          </li>
+
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/works/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/works")}
+              >{t({ en: "Works", ja: "プロジェクト" })}
+            </a>
+          </li>
+
+          <li
+            class={cn("hover:text-hool-turquoise-300 dark:hover:text-ak-blue", {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/explore/",
+            })}
+          >
+            <a href={getRelativeLocaleUrl(locale, "/explore")}
+              >{t({ en: "Explore", ja: "探検する" })}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="z-50 flex items-center">
+        <LocaleDropdown
+          url={Astro.url}
+          currentLocale={Astro.currentLocale as Lang}
+          client:load
+        />
+        <ThemeDropdown client:load />
+        <button
+          id="hamburger"
+          class="z-50 ml-2 flex flex-col items-center justify-center hover:bg-hool-white-200 dark:hover:bg-ak-black-300 md:hidden"
+        >
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </section>
 
   <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 -translate-x-full transform bg-hool-white-100 transition-transform duration-300 ease-in-out dark:bg-ak-black-100"
+  >
+    <!-- Mobile menu content -->
+    <menu class="flex flex-col">
+      <ul class="flex">
+        <li
+          class={cn(
+            "hover:text-hool-turquoise-300 dark:hover:text-ak-blue text-4xl",
+            {
+              "text-hool-turquoise-300 hover:text-hool-turquoise-400 dark:text-ak-blue dark:hover:text-ak-blue-two":
+                firstPath === "/blog/",
+            },
+          )}
+        >
+          <a href={getRelativeLocaleUrl(locale, "/blog")}
+            >{t({ en: "BLOG", ja: "ブログ" })}
+          </a>
+        </li>
+      </ul>
+    </menu>
+  </div>
 </header>
+
+<style>
+  .hamburger-line {
+    width: 25px;
+    height: 2px;
+    background-color: currentColor;
+    margin: 3px 0;
+    transition: 0.4s;
+  }
+
+  .hamburger-open span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .hamburger-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-open span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+</style>
+
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("hamburger-open");
+    mobileMenu.classList.toggle("-translate-x-full");
+  });
+</script>
