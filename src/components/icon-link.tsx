@@ -31,7 +31,12 @@ export default function IconLink({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <a href={link} {...(openNewTab ? { target: "_blank" } : {})}>
+          <a
+            href={link}
+            {...(openNewTab
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
             <Button variant="ghost" size="icon">
               {Icon && <Icon />}
             </Button>
