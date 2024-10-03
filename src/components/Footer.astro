@@ -1,0 +1,52 @@
+---
+import { useTranslations, type Lang } from "@/lib/i18n";
+import IconLink from "@/components/icon-link";
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
+---
+
+<footer class="my-6 flex flex-col items-center justify-center px-6 text-xs">
+  <p>&#169; 2024-Present Day... Present Time! HAHAHA!</p>
+  <div class="mt-1 flex gap-0.5">
+    <IconLink
+      iconName="EmailIcon"
+      tooltipText="Contact"
+      link="/"
+      openNewTab={false}
+      client:load
+    />
+
+    <IconLink
+      iconName="TwitterXIcon"
+      tooltipText="Twitter"
+      link="https://twitter.com/home"
+      openNewTab={true}
+      client:load
+    />
+
+    <IconLink
+      iconName="GithubIcon"
+      tooltipText="GitHub"
+      link="https://github.com/DannyBoy5930"
+      openNewTab={true}
+      client:load
+    />
+
+    <IconLink
+      iconName="MdiLinkedin"
+      tooltipText="LinkedIn"
+      link="https://www.linkedin.com/in/danny-bao/"
+      openNewTab={true}
+      client:load
+    />
+
+    <IconLink
+      iconName="NotionIcon"
+      tooltipText="Notion Resume"
+      link="/"
+      openNewTab={true}
+      client:load
+    />
+  </div>
+</footer>

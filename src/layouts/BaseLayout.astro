@@ -4,6 +4,7 @@ import "@fontsource-variable/jetbrains-mono";
 import { SITE_TITLE, SITE_DESCRIPTION, TWITTER_ACCOUNT } from "@/lib/consts";
 
 import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 import ThemeHeadScript from "@/components/theme-head-script.astro";
 import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
 import {
@@ -50,7 +51,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
         <slot />
       </main>
 
-      <footer></footer>
+      <Footer />
     </section>
   </body>
 </html>
