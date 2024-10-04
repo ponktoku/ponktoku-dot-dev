@@ -5,6 +5,13 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      keyframes: {
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+      },
+      animation: { fade: "fadeIn 0.5s ease-in-out" },
       fontFamily: {
         "jetbrains-mono": "JetBrains Mono Variable, monospace, sans-serif",
       },
