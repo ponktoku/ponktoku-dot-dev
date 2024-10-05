@@ -1,21 +1,34 @@
 ---
 import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import IconLink from "@/components/icon-link";
 import { Image } from "astro:assets";
 import dannyColour from "@/assets/colour.jpg";
 import Skill from "@/components/Skill.astro";
 import { skills } from "@/lib/consts";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { multiFormatDate } from "@/lib/utils";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
-/* 
-  This getStaticPaths function generates a separate page for each language defined in the LOCALES object.
-  Allows for Astro to create static routes for each language at build time.
-  Ensures that [lang] dynamic route parameter is properly populated with valid language codes
-*/
+const blogPosts: CollectionEntry<"blog">[] = (await getCollection("blog"))
+  .filter((post) => post.slug.split("/")[0] === locale)
+  .sort(
+    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
+const notes: CollectionEntry<"notes">[] = (await getCollection("notes"))
+  .filter((post) => post.slug.split("/")[0] === locale)
+  .sort(
+    (a: CollectionEntry<"notes">, b: CollectionEntry<"notes">) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
+const recentBlogPosts: CollectionEntry<"blog">[] = blogPosts.slice(0, 3);
+const recentNotes: CollectionEntry<"notes">[] = notes.slice(0, 3);
+
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({
     params: { lang },
@@ -104,7 +117,7 @@ export const getStaticPaths = () =>
       {
         t({
           en: "Hey 👋, I'm Danny. Online I go by the name of ponktoku. Love building for the web and aim to record insights and discoveries along the way.",
-          ja: "こんにちは 👋、私の名前はダニーです。オンラインではponktokuという名前で活動しています。",
+          ja: "こんにちは 👋、私の名前はダニーです。オンラインではponktoku(ポンクトク)という名前で活動しています。ウェブ開発が大好きで、その過程で得た気づきや発見を記録していくことを目指しています。",
         })
       }
     </p>
@@ -130,23 +143,58 @@ export const getStaticPaths = () =>
       {t({ en: "RECENT POSTS", ja: "最近ブログ" })}
     </h2>
 
+    <ul class="mt-6">
+      {
+        recentBlogPosts.map((post) => {
+          const [, ...slug] = post.slug.split("/");
+
+          return (
+            <li>
+              <a
+                href={`/${locale}/blog/${slug.join("/")}/`}
+                class="flex cursor-pointer flex-col items-start justify-between rounded-md py-2 transition hover:bg-hool-white-200 hover:text-black dark:hover:bg-ak-black-200 dark:hover:text-white sm:flex-row sm:items-center"
+              >
+                <span>{post.data.title}</span>
+                <time
+                  datetime={post.data.pubDate.toISOString()}
+                  class="text-sm"
+                >
+                  {multiFormatDate(post.data.pubDate, "numeric", locale)}
+                </time>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+
     <h2 class="mt-12 text-xl font-bold">
       {t({ en: "RECENT NOTES", ja: "最近ノート" })}
     </h2>
 
-    <p>
-      {t({ en: "Hello", ja: "こんにちは" })}
-      <span class="font-bold text-red-500">
-        {t({ en: "World", ja: "世界" })}
-      </span>
-      <span>
-        {
-          t({
-            en: "Software",
-            ja: "ソフトウェア",
-          })
-        }
-      </span>
-    </p>
+    <ul class="mt-6">
+      {
+        recentNotes.map((note) => {
+          const [, ...slug] = note.slug.split("/");
+
+          return (
+            <li>
+              <a
+                href={`/${locale}/blog/${slug.join("/")}/`}
+                class="flex cursor-pointer flex-col items-start justify-between rounded-md py-2 hover:bg-hool-white-200 hover:text-black dark:hover:bg-ak-black-200 dark:hover:text-white sm:flex-row sm:items-center"
+              >
+                <span>{note.data.title}</span>
+                <time
+                  datetime={note.data.pubDate.toISOString()}
+                  class="text-sm"
+                >
+                  {multiFormatDate(note.data.pubDate, "numeric", locale)}
+                </time>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
   </div>
 </BaseLayout>
