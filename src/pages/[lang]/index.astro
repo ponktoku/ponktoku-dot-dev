@@ -1,10 +1,13 @@
 ---
 import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-const t = useTranslations(Astro.currentLocale as Lang);
 import { getRelativeLocaleUrl } from "astro:i18n";
+import IconLink from "@/components/icon-link";
+import { Image } from "astro:assets";
+import dannyColour from "@/assets/colour.jpg";
 
 const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
 
 /* 
   This getStaticPaths function generates a separate page for each language defined in the LOCALES object.
@@ -18,49 +21,130 @@ export const getStaticPaths = () =>
 ---
 
 <BaseLayout>
-  <section>
-    <div>
-      <h1>Danny Bao</h1>
-      <!-- Card here -->
-    </div>
+  <section class="mb-10 flex items-center justify-center">
+    <div class="flex gap-6">
+      <figure class="relative">
+        <Image
+          src={dannyColour}
+          alt="Danny Bao Photo"
+          class="transition-filter rounded-full shadow-xl grayscale filter duration-300 ease-in-out hover:filter-none"
+          loading="lazy"
+          width="150"
+          height="150"
+          decoding="async"
+        />
+        <span
+          class="absolute bottom-0 left-28 flex h-10 w-10 items-center justify-center rounded-full bg-hool-white-200 text-center align-middle shadow-md dark:bg-ak-black-300"
+          >🇦🇺</span
+        >
+      </figure>
 
-    <div>
-      <h2>{t({ en: "About me", ja: "個人の情報" })}</h2>
-      <p>
-        {
-          t({
-            en: "Hey 👋, I'm Danny. Online I go by the name of ponktoku.",
-            ja: "こんにちは 👋、私の名前はダニーです。オンラインではponktokuという名前で活動しています。",
-          })
-        }
-      </p>
+      <div class="flex flex-1 flex-col justify-between">
+        <div class="mt-4">
+          <h1 class="text-3xl font-bold text-black dark:text-white">
+            Danny Bao
+          </h1>
+          <h2 class="text-hool-text-emphasis dark:text-neutral-300">
+            {t({ en: "Software Developer", ja: "ソフトウェア開発者" })}
+          </h2>
+          <p class="text-sm">
+            {t({ en: "Dabbler in many things", ja: "多くのことに興味がある" })}
+          </p>
+        </div>
+        <div class="mt-1 flex gap-0.5">
+          <IconLink
+            iconName="EmailIcon"
+            tooltipText="Contact"
+            link="/"
+            openNewTab={false}
+            client:load
+          />
 
-      <p>
-        {t({ en: "Hello", ja: "こんにちは" })}
-        <span class="font-bold text-red-500">
-          {t({ en: "World", ja: "世界" })}
-        </span>
-        <span>
-          {
-            t({
-              en: "Software",
-              ja: "ソフトウェア",
-            })
-          }
-        </span>
-      </p>
-    </div>
+          <IconLink
+            iconName="TwitterXIcon"
+            tooltipText="Twitter"
+            link="https://twitter.com/home"
+            openNewTab={true}
+            client:load
+          />
 
-    <div>
-      <h2>{t({ en: "Favourite Tech", ja: "好きな技術" })}</h2>
-    </div>
+          <IconLink
+            iconName="GithubIcon"
+            tooltipText="GitHub"
+            link="https://github.com/DannyBoy5930"
+            openNewTab={true}
+            client:load
+          />
 
-    <div>
-      <h2>{t({ en: "Recent Posts", ja: "最近ブログ" })}</h2>
-    </div>
+          <IconLink
+            iconName="MdiLinkedin"
+            tooltipText="LinkedIn"
+            link="https://www.linkedin.com/in/danny-bao/"
+            openNewTab={true}
+            client:load
+          />
 
-    <div>
-      <h2>{t({ en: "Recent Notes", ja: "最近ノート" })}</h2>
+          <IconLink
+            iconName="NotionIcon"
+            tooltipText="Notion Resume"
+            link="/"
+            openNewTab={true}
+            client:load
+          />
+        </div>
+      </div>
     </div>
   </section>
+
+  <div>
+    <h2 class="text-xl font-bold">{t({ en: "ABOUT", ja: "個人の情報" })}</h2>
+    <p class="mt-3 leading-relaxed">
+      {
+        t({
+          en: "Hey 👋, I'm Danny. Online I go by the name of ponktoku. Love building for the web and aim to record insights and discoveries along the way.",
+          ja: "こんにちは 👋、私の名前はダニーです。オンラインではponktokuという名前で活動しています。",
+        })
+      }
+    </p>
+
+    <h2 class="mt-12 text-xl font-bold">
+      {t({ en: "FAVOURITE TECHNOLOGIES", ja: "好きな技術" })}
+    </h2>
+
+    <p class="mt-3 leading-relaxed">
+      {
+        t({
+          en: "I love exploring new libraries, programing languages and frameworks. Here is a list of technologies that I love to build with.",
+          ja: "新しいライブラリ、プログラミング言語やフレームワークを探求するのが好きです。ここに、私が好きな技術を構築するために使用する技術のリストがあります。",
+        })
+      }
+    </p>
+
+    <ul class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <li>asd</li>
+    </ul>
+
+    <h2 class="mt-12 text-xl font-bold">
+      {t({ en: "RECENT POSTS", ja: "最近ブログ" })}
+    </h2>
+
+    <h2 class="mt-12 text-xl font-bold">
+      {t({ en: "RECENT NOTES", ja: "最近ノート" })}
+    </h2>
+
+    <p>
+      {t({ en: "Hello", ja: "こんにちは" })}
+      <span class="font-bold text-red-500">
+        {t({ en: "World", ja: "世界" })}
+      </span>
+      <span>
+        {
+          t({
+            en: "Software",
+            ja: "ソフトウェア",
+          })
+        }
+      </span>
+    </p>
+  </div>
 </BaseLayout>
