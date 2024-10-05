@@ -7,6 +7,8 @@ import mdx from "@astrojs/mdx";
 
 import react from "@astrojs/react";
 
+import icon from "astro-icon";
+
 // https://astro.build/config
 export default defineConfig({
   i18n: {
@@ -17,11 +19,7 @@ export default defineConfig({
       redirectToDefaultLocale: false,
     },
   },
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    mdx(),
-    react(),
-  ],
+  integrations: [tailwind({
+    applyBaseStyles: false,
+  }), mdx(), react(), icon()],
 });
