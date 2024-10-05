@@ -73,3 +73,22 @@ export const worksJa = [
     workBadge: "personal project",
   },
 ];
+
+export const skills = [
+  {
+    label: "Astro",
+    icon: "astro",
+  },
+  {
+    label: "React",
+    icon: "react",
+  },
+  {
+    label: "TypeScript",
+    icon: "typescript",
+  },
+  {
+    label: "Next.js",
+    icon: "nextjs",
+  },
+];
