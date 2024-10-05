@@ -112,7 +112,9 @@ export const getStaticPaths = () =>
   </section>
 
   <div>
-    <h2 class="text-xl font-bold">{t({ en: "ABOUT", ja: "個人の情報" })}</h2>
+    <h2 class="text-xl font-bold text-black dark:text-hool-white-200">
+      {t({ en: "ABOUT", ja: "個人の情報" })}
+    </h2>
     <p class="mt-3 leading-relaxed">
       {
         t({
@@ -122,7 +124,7 @@ export const getStaticPaths = () =>
       }
     </p>
 
-    <h2 class="mt-12 text-xl font-bold">
+    <h2 class="mt-12 text-xl font-bold text-black dark:text-hool-white-200">
       {t({ en: "FAVOURITE TECHNOLOGIES", ja: "好きな技術" })}
     </h2>
 
@@ -139,11 +141,11 @@ export const getStaticPaths = () =>
       {skills.map((skill) => <Skill {...skill} />)}
     </ul>
 
-    <h2 class="mt-12 text-xl font-bold">
+    <h2 class="mt-12 text-xl font-bold text-black dark:text-hool-white-200">
       {t({ en: "RECENT POSTS", ja: "最近ブログ" })}
     </h2>
 
-    <ul class="mt-6">
+    <ul class="mt-3">
       {
         recentBlogPosts.map((post) => {
           const [, ...slug] = post.slug.split("/");
@@ -168,11 +170,11 @@ export const getStaticPaths = () =>
       }
     </ul>
 
-    <h2 class="mt-12 text-xl font-bold">
+    <h2 class="mt-12 text-xl font-bold text-black dark:text-hool-white-200">
       {t({ en: "RECENT NOTES", ja: "最近ノート" })}
     </h2>
 
-    <ul class="mt-6">
+    <ul class="mt-3">
       {
         recentNotes.map((note) => {
           const [, ...slug] = note.slug.split("/");
