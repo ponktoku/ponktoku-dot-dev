@@ -128,3 +128,11 @@ body {
     @apply bg-background text-hool-text dark:text-ak-black-500;
   }
 }
+
+.filter {
+  filter: grayscale(100%);
+}
+
+.hover\:filter-none:hover {
+  filter: none;
+}
