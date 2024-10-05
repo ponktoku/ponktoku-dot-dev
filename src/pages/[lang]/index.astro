@@ -5,6 +5,8 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import IconLink from "@/components/icon-link";
 import { Image } from "astro:assets";
 import dannyColour from "@/assets/colour.jpg";
+import Skill from "@/components/Skill.astro";
+import { skills } from "@/lib/consts";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
@@ -34,7 +36,7 @@ export const getStaticPaths = () =>
           decoding="async"
         />
         <span
-          class="absolute bottom-0 left-28 flex h-10 w-10 items-center justify-center rounded-full bg-hool-white-200 text-center align-middle shadow-md dark:bg-ak-black-300"
+          class="absolute bottom-0 left-28 flex h-10 w-10 items-center justify-center rounded-full border-t border-transparent bg-hool-white-200 text-center align-middle shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-none"
           >🇦🇺</span
         >
       </figure>
@@ -121,7 +123,7 @@ export const getStaticPaths = () =>
     </p>
 
     <ul class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <li>asd</li>
+      {skills.map((skill) => <Skill {...skill} />)}
     </ul>
 
     <h2 class="mt-12 text-xl font-bold">
