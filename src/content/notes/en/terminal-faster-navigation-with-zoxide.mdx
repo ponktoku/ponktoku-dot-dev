@@ -1,0 +1,91 @@
+---
+title: "(Terminal) Faster navigation with Zoxide"
+description: "Using the Zoxide CLI tool to move faster in the terminal"
+pubDate: 2024-02-22
+tags: ["Terminal", "Package"]
+---
+
+[GitHub - ajeetdsouza/zoxide: A smarter cd command. Supports all major shells.](https://github.com/ajeetdsouza/zoxide?tab=readme-ov-file#installation)
+
+I've heard of z-jumper but not zoxide. Zoxide is a smarter cd command.
+
+> It remembers which directories you use most frequently, so you can "jump" to them in just a few keystrokes. Zoxide works on all major shells.
+
+It's a nice and easier out of box experience than I had with z-jumper. It's built with Rust, frequently updated (at the time of writing) and available on multiple platforms.
+
+You can use `z` as you would `cd` (Change Directory) but Zoxide has some extra quality of life features.
+
+## Zoxide cheatsheet
+
+```bash
+# Zoxide commands
+add     Add a new directory or increment its rank
+edit    Edit the database
+import  Import entries from another application
+init    Generate shell configuration
+query   Search for a directory in the database
+remove  Remove a directory from the database
+
+# Normal use to jump directories
+z <path>
+
+# Zoxide interactive mode (requires fzf)
+zi
+
+# Query a path
+zoxide query <path>
+
+# Query a path with its score
+zoxide query <path> -s
+
+# List all matching directories
+zoxide query -l
+
+# List all matching directories with score using less utility
+zoxide query -l -s | less
+
+# Remove a given directory from database
+zoxide remove <path>
+
+# Brings up interactive menu to modify entries in your database
+zoxide edit
+```
+
+Extra notes:
+
+- `zoxide remove <path>` is handy to remove any unresolved paths that are no longer around
+- `zoxide edit` is useful to see and modify everything in your database at once
+- `zoxide query`
+  - `-l` flag lists all entries
+  - `-s` flag shows the score of an entry
+  - Using both shows all paths and their score in the database
+- You can move up and down in `zi` with `ctrl-p/n` or use vim motions with `ctrlj/k`
+- Use the linux `| less` utility to view your database with pages as your database gets bigger
+
+## How it works under the hood
+
+As you move around directories using `z` or `cd` Zoxide keeps track of your most visited paths and applies a weighting system to them they call 'score'.
+
+### Usage
+
+Say you edit in your `~/Developer/Code/project-x` folder a lot because you're working on a new project. With Zoxide you can use `z project-x` and jump multiple folders to get to the 'project-x' folder in one command.
+
+### 4 things to keep in mind when searching with Zoxide
+
+1. The search term is case insensitive
+2. All of the terms must be contained within the path in the same order
+3. The last component of the last keyword must match the last component of the path
+4. All matches are returned in descending order of their weights
+
+## Zoxide interactive mode with fzf (fuzzy find)
+
+Zoxide can work together with fzf. Use the `zi` to bring up zoxide interactive mode which is a fuzzy finder for your zoxide database. It shows all your paths and their score in a menu. You can scroll up and down with `ctrl+p and ctrl+n or ctrl+j/k` for vim motions
+
+```bash
+# Zoxide interactive mode
+zi
+```
+
+## Resources
+
+- [zoxide has forever improved the way I navigate in the terminal. - YouTube](https://www.youtube.com/watch?v=aghxkpyRVDY) by Dreams of Autonomy

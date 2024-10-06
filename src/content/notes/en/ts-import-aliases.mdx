@@ -1,0 +1,68 @@
+---
+title: "(TS) Import aliases"
+description: "Cleaning up imports with path aliases"
+pubDate: 2024-07-13
+tags: ["TypeScript"]
+---
+
+Perhaps you've checked someone else's project for inspiration and wondered why their import statements look different to yours?
+
+```tsx
+// Yours
+import { Button } from "../../../components/button";
+
+// Theirs
+import { Button } from "@/components/button";
+import { Button } from "~/components/button";
+```
+
+The answer is most likely TypeScript path aliases also called import aliases.
+
+## Setting up path aliases in TS Config file
+
+The first step will be to change your `tsconfig.json` file to add the following snippet.
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+- Add a `baseUrl` and `paths` to your `compilerOptions`.
+- The [Base URL](https://www.typescriptlang.org/tsconfig/#baseUrl) sets a base directory from which TypeScript will look for files starting at the same folder as the base URL. In most cases it will be the current directory of your app which is marked with a period/full stop.
+- [Paths](https://www.typescriptlang.org/tsconfig/#paths) re-maps import paths to lookup locations for your imports relative to the base URL.
+
+_Note:_ You can customise your import paths to whatever you need or like. You can use the `@` symbol or `~` tilde, its your personal preference. You can even go to more specific paths in your project like a components folder. See the example below:
+
+### You can setup multiple paths to different locations in your project structure
+
+In this example we've added 2 other import aliases that go to the `components` folder and the `lib` folder directly. This is useful for frequently imported modules.
+
+```json
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@components/*": ["src/components/*"],
+			"@lib/*": ["src/lib/*"]
+		}
+	}
+}
+
+// Example usage
+import { myUtility } from "@/lib/utils";
+```
+
+## Resources
+
+- [Base URL | TypeScript docs](https://www.typescriptlang.org/tsconfig/#baseUrl)
+- [Paths | TypeScript docs](https://www.typescriptlang.org/tsconfig/#paths)
+- [TypeScript Import Aliases | Astro Docs](https://docs.astro.build/en/guides/typescript/#import-aliases)
+- [How to Use TSConfig Path Aliases to Improve Your Code](https://webreaper.dev/posts/tsconfig-paths-setup/)
+- [Use typescript aliases to clean up your import statements | by Chris House | SlackerNoon | Medium](https://medium.com/slackernoon/use-typescript-aliases-to-clean-up-your-import-statements-7210b7ec2af1)
