@@ -58,9 +58,14 @@ const { tag } = params;
 if (!tag) throw new Error("Tag is required in params");
 
 const { notes } = Astro.props;
+
+const title = {
+  en: `Exploring tag: ${tag}`,
+  ja: `タグ: ${tag}`,
+};
 ---
 
-<BaseLayout>
+<BaseLayout title={locale == "ja" ? title.ja : title.en}>
   <h2 class="font-bold3 text-2xl text-hool-text-emphasis dark:text-white">
     {tag}
   </h2>
