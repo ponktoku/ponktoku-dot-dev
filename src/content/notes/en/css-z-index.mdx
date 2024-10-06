@@ -1,0 +1,44 @@
+---
+title: "(CSS) z-index"
+description: "Explore the CSS z-index property"
+pubDate: 2024-02-23
+tags: ["CSS"]
+---
+
+CSS `z-index` is a property used to control the stacking order of positioned elements in the HTML document. An element with greater stack order is always in front of an element with a lower stack order.
+
+```css
+# CSS
+img {
+	z-index: -1;
+}
+
+# Tailwindcss
+<img class="z-50" />
+```
+
+## Documentation
+
+- [z-index - CSS: Cascading Style Sheets | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index)
+- [Z-Index - Tailwind CSS](https://tailwindcss.com/docs/z-index)
+
+## My use case
+
+In the process of building my portfolio website I stumbled upon a case where images for my Article/Post Card components were going on top of the navigation bar.
+I thought it might be an issue with the `relative` positioning I used in the styling of the card but that was not the case.
+
+### Images of the problem
+
+![Article card overlapping with navigation bar](@/assets/notes/css-z-index/css-z-index-1.png)
+
+![Article card overlapping with dropdown menu](@/assets/notes/css-z-index/css-z-index-2.png)
+
+### The solution (using z-index)
+
+The solution was to use the z-index css property, which when put on elements determines what element goes on top. So I added a z-index of 50 with tailwind (`z-50`) onto the navigation bar and it worked, other page elements now go underneath my sticky navigation bar.
+
+TLDR: The higher element z-index goes on top.
+
+Example: 2 squares one has z-index of 1 and the other has z-index of 2. The z-index 2 square is the one that appears on top if there ever is any overlap on the page.
+
+![Fixing overlapping elements with css z-index property](@/assets/notes/css-z-index/css-z-index-3.png)
