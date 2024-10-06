@@ -293,3 +293,20 @@ export function HeroiconsLanguage(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function DoubleArrow(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="m6.05 19l5-7l-5-7H8.5l5 7l-5 7zM12 19l5-7l-5-7h2.45l5 7l-5 7z"
+      />
+    </svg>
+  );
+}
