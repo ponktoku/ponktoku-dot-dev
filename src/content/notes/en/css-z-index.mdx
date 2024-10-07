@@ -2,6 +2,7 @@
 title: "(CSS) z-index"
 description: "Explore the CSS z-index property"
 pubDate: 2024-02-23
+updatedDate: 2024-10-07
 tags: ["CSS"]
 ---
 
@@ -21,6 +22,7 @@ img {
 
 - [z-index - CSS: Cascading Style Sheets | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index)
 - [Z-Index - Tailwind CSS](https://tailwindcss.com/docs/z-index)
+- [CSS Tricks - Z-index](https://css-tricks.com/almanac/properties/z/z-index/)
 
 ## My use case
 
@@ -35,9 +37,15 @@ I thought it might be an issue with the `relative` positioning I used in the sty
 
 ### The solution (using z-index)
 
-The solution was to use the z-index css property, which when put on elements determines what element goes on top. So I added a z-index of 50 with tailwind (`z-50`) onto the navigation bar and it worked, other page elements now go underneath my sticky navigation bar.
+The solution was to use the z-index css property, which when put on elements determines what element goes on top.
+So I added a z-index of 50 with tailwind (`z-50`) onto the navigation bar.
+Since normal elements have a z-index of 0 elements go underneath the sticky navigation bar.
 
-TLDR: The higher element z-index goes on top.
+TLDR:
+
+- All elements start with a z-index of 0.
+- The higher the z-index the higher the element is on the page.
+- You can set negative z-indexes.
 
 Example: 2 squares one has z-index of 1 and the other has z-index of 2. The z-index 2 square is the one that appears on top if there ever is any overlap on the page.
 
