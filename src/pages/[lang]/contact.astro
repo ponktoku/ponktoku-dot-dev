@@ -49,13 +49,19 @@ export const getStaticPaths = () =>
             <div class="details">
               <div class="font-extralight">
                 <h3 class="mr-10 inline">RACE</h3>
-                <span>HOMO SAPIEN</span>
+                <span>{t({ en: "HOMO SAPIEN", ja: "ホモサピエンス" })}</span>
               </div>
               <div class="flex gap-12 font-extralight">
                 <h3>BORN</h3>
                 <div class="flex flex-col">
-                  <span class="md:text-xl">AUGUST | 20 | 2001</span>
-                  <span class="text-sm font-extrabold">MELBOURNE</span>
+                  <span class="md:text-xl"
+                    >{
+                      t({ en: "AUGUST | 20 | 2001", ja: "2001 | 08 | 20" })
+                    }</span
+                  >
+                  <span class="text-sm font-extrabold"
+                    >{t({ en: "MELBOURNE", ja: "メルボルン" })}</span
+                  >
                 </div>
               </div>
               <div class="font-extralight">
