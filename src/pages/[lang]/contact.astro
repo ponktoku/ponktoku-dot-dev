@@ -175,10 +175,10 @@ export const getStaticPaths = () =>
 </style>
 
 <script>
-  const screen = document.querySelector(".screen-wrapper");
-  const container = document.querySelector(".screen-container");
+  const screen = document.querySelector(".screen-wrapper") as HTMLElement;
+  const container = document.querySelector(".screen-container") as HTMLElement;
 
-  container.addEventListener("mousemove", (e) => {
+  container.addEventListener("mousemove", (e: MouseEvent) => {
     const { left, top, width, height } = container.getBoundingClientRect();
     const x = (e.clientX - left) / width;
     const y = (e.clientY - top) / height;
