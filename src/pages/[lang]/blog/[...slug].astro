@@ -6,6 +6,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "@/components/Prose.astro";
 import { formatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
+import BaseRightSide from "@/components/BaseRightAside.astro";
 
 type Props = {
   post: CollectionEntry<"blog">;
@@ -31,9 +32,13 @@ if (!post) {
 }
 
 // TODO: Find issue with types and fix
-const { Content, remarkPluginFrontmatter } = await post.render();
+const { Content, remarkPluginFrontmatter, headings } = await post.render();
 const title: string = post.data.title;
 const date = formatDate(post.data.pubDate);
+
+const validHeadings = headings.filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
 ---
 
 <ArticleLayout {title}>
@@ -79,6 +84,27 @@ const date = formatDate(post.data.pubDate);
           {post.data.updatedDate.toLocaleDateString(lang)}
         </time>
       </div>
+    )
+  }
+
+  {
+    validHeadings.length > 0 && (
+      <BaseRightSide>
+        <ul>
+          {validHeadings.map((heading) => (
+            <li class="my-2 text-sm underline decoration-hool-white-200 underline-offset-4 dark:decoration-ak-black-300">
+              <a
+                class="inline-block rounded-sm transition hover:bg-hool-white-200 hover:text-black hover:no-underline dark:hover:bg-[#262626] dark:hover:text-white"
+                href={`#${heading.slug}`}
+              >
+                {decodeURIComponent(
+                  heading.text.split("Section titled ")[0].trim(),
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </BaseRightSide>
     )
   }
 

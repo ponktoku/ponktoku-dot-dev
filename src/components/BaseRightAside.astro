@@ -1,0 +1,13 @@
+---
+import { cn } from "@/lib/utils";
+---
+
+<aside
+  aria-label="Right Aside Navigation"
+  class={cn(
+    "lg:fixed lg:top-page lg:max-w-[220px] lg:translate-x-[750px] lg:translate-y-10 lg:mt-0",
+    "flex flex-col animate-fade transition-opacity mt-3",
+  )}
+>
+  <slot />
+</aside>
