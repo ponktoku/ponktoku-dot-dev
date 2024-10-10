@@ -2,11 +2,15 @@
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "@/components/Prose.astro";
-import { multiFormatDate } from "@/lib/utils"
+import { multiFormatDate } from "@/lib/utils";
+import { useTranslations, type Lang } from "@/lib/i18n";
 
 type Props = {
   note: CollectionEntry<"notes">;
 };
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
 
 export async function getStaticPaths() {
   const notes: CollectionEntry<"notes">[] = await getCollection("notes");
@@ -24,55 +28,80 @@ if (!note) {
   return Astro.redirect(`/${lang}/404`);
 }
 
-const { Content } = await note.render();
+const { Content, remarkPluginFrontmatter } = await note.render();
 const title: string = note.data.title;
 const date = multiFormatDate(note.data.pubDate);
-
 ---
 
 <ArticleLayout {title}>
   <section class="mt-14">
-    <ul class="flex gap-2 mb-5 flex-wrap">
+    <ul class="mb-5 flex flex-wrap gap-2">
       {
         note.data.tags.map((tag) => {
           return (
             <li>
-              <a href={`/${lang}/tag/${tag}`} class="transition-colors dark:bg-ak-black-300 py-1 px-3 rounded-full dark:hover:bg-hool-white-200 dark:hover:text-hool-text-emphasis bg-hool-white-200 cursor-pointer hover:bg-hool-white-300">{tag}</a>
+              <a
+                href={`/${lang}/tag/${tag}`}
+                class="cursor-pointer rounded-full bg-hool-white-200 px-3 py-1 transition-colors hover:bg-hool-white-300 dark:bg-ak-black-300 dark:hover:bg-hool-white-200 dark:hover:text-hool-text-emphasis"
+              >
+                {tag}
+              </a>
             </li>
-          )
+          );
         })
       }
     </ul>
 
-    <h1 class="mb-1 text-2xl font-bold dark:text-ak-blue text-hool-turquoise-300">{note.data.title}</h1>
-    <h2 class="mb-1 dark:text-ak-black-400">{note.data.description}</h2>  
-  
-    {lang === "en" && (<div class="mb-14">
-      <time datetime={note.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{date}</time>
+    <h1
+      class="mb-1 text-2xl font-bold text-hool-turquoise-300 dark:text-ak-blue"
+    >
+      {note.data.title}
+    </h1>
+    <h2 class="mb-1 text-black dark:text-white">{note.data.description}</h2>
+
+    <div class="mb-3">
       {
-        note.data.updatedDate ? (
-          <span class="text-sm text-hool-grey-light dark:text-ak-black-400">Updated: </span>
-          <time datetime={note.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{multiFormatDate(note.data.updatedDate)}</time>
-        ) : (
-          ""
+        lang === "en" && (
+          <time datetime={note.data.pubDate.toISOString()} class="text-sm">
+            {date}
+          </time>
         )
       }
-    </div>)}
-  
-    {lang === "ja" && (<div class="mb-14">
-      <time datetime={note.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{note.data.pubDate.toLocaleDateString(lang)}</time>
+
       {
-        note.data.updatedDate ? (
-          <span class="text-sm text-hool-grey-light dark:text-ak-black-400">更新: </span>
-          <time datetime={note.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{note.data.updatedDate.toLocaleDateString(lang)}</time>
-        ) : (
-          ""
+        lang === "ja" && (
+          <time
+            datetime={note.data.pubDate.toISOString()}
+            class="text-sm text-hool-grey-light dark:text-ak-black-400"
+          >
+            {note.data.pubDate.toLocaleDateString(lang)}
+          </time>
         )
       }
-    </div>)}
+
+      <span class="inline-block text-sm"
+        >・ {remarkPluginFrontmatter.minutesRead}</span
+      >
+    </div>
+
+    {
+      note.data.updatedDate && (
+        <div class="mt-6 rounded-md border border-teal-500 bg-teal-600/20 px-4 py-2 text-sm text-teal-800 dark:border-blue-500 dark:bg-blue-600/20 dark:text-blue-200 sm:text-base">
+          <span class="font-semibold">
+            {t({ en: "Last updated: ", ja: "更新: " })}
+          </span>
+          <time
+            datetime={note.data.updatedDate.toISOString()}
+            class="font-light"
+          >
+            {note.data.updatedDate.toLocaleDateString(lang)}
+          </time>
+        </div>
+      )
+    }
   </section>
 
-  <Prose>
+  <Prose className="mt-12">
     <Content />
   </Prose>
 </ArticleLayout>

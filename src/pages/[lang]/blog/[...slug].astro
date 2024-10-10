@@ -4,11 +4,15 @@
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "@/components/Prose.astro";
-import { formatDate } from "@/lib/utils"
+import { formatDate } from "@/lib/utils";
+import { useTranslations, type Lang } from "@/lib/i18n";
 
 type Props = {
   post: CollectionEntry<"blog">;
 };
+
+const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
 
 export async function getStaticPaths() {
   const posts: CollectionEntry<"blog">[] = await getCollection("blog");
@@ -26,41 +30,59 @@ if (!post) {
   return Astro.redirect(`/${lang}/404`);
 }
 
-// TODO: Find issue with types and fix 
-const { Content } = await post.render();
+// TODO: Find issue with types and fix
+const { Content, remarkPluginFrontmatter } = await post.render();
 const title: string = post.data.title;
 const date = formatDate(post.data.pubDate);
 ---
 
 <ArticleLayout {title}>
-  <h1 class="mt-14 mb-1 text-2xl font-bold dark:text-ak-blue text-hool-turquoise-300">{post.data.title}</h1>
-  <h2 class="mb-1 dark:text-ak-black-400">{post.data.description}</h2>  
+  <h1
+    class="mb-1 mt-14 text-2xl font-bold text-hool-turquoise-300 dark:text-ak-blue"
+  >
+    {post.data.title}
+  </h1>
+  <h2 class="mb-1 text-black dark:text-white">{post.data.description}</h2>
 
-  {lang === "en" && (<div class="mb-14">
-    <time datetime={post.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{date}</time>
+  <div class="mb-3">
     {
-      post.data.updatedDate ? (
-        <span class="text-sm text-hool-grey-light dark:text-ak-black-400">Updated: </span>
-        <time datetime={post.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{formatDate(post.data.updatedDate)}</time>
-      ) : (
-        ""
+      lang === "en" && (
+        <time datetime={post.data.pubDate.toISOString()} class="text-sm">
+          {date}
+        </time>
       )
     }
-  </div>)}
 
-{lang === "ja" && (<div class="mb-14">
-  <time datetime={post.data.pubDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{post.data.pubDate.toLocaleDateString(lang)}</time>
+    {
+      lang === "ja" && (
+        <time
+          datetime={post.data.pubDate.toISOString()}
+          class="text-sm text-hool-grey-light dark:text-ak-black-400"
+        >
+          {post.data.pubDate.toLocaleDateString(lang)}
+        </time>
+      )
+    }
+
+    <span class="inline-block text-sm"
+      >・ {remarkPluginFrontmatter.minutesRead}</span
+    >
+  </div>
+
   {
-    post.data.updatedDate ? (
-      <span class="text-sm text-hool-grey-light dark:text-ak-black-400">更新: </span>
-      <time datetime={post.data.updatedDate.toISOString()} class="text-sm text-hool-grey-light dark:text-ak-black-400">{post.data.updatedDate.toLocaleDateString(lang)}</time>
-    ) : (
-      ""
+    post.data.updatedDate && (
+      <div class="mt-6 rounded-md border border-teal-500 bg-teal-600/20 px-4 py-2 text-sm text-teal-800 dark:border-blue-500 dark:bg-blue-600/20 dark:text-blue-200 sm:text-base">
+        <span class="font-semibold">
+          {t({ en: "Last updated: ", ja: "更新: " })}
+        </span>
+        <time datetime={post.data.updatedDate.toISOString()} class="font-light">
+          {post.data.updatedDate.toLocaleDateString(lang)}
+        </time>
+      </div>
     )
   }
-</div>)}
 
-  <Prose>
+  <Prose className="mt-12">
     <Content />
   </Prose>
 </ArticleLayout>
