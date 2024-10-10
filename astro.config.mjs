@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 import tailwind from "@astrojs/tailwind";
 
@@ -11,6 +12,9 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+  },
   i18n: {
     defaultLocale: "en",
     locales: ["en", "ja"],
@@ -19,7 +23,12 @@ export default defineConfig({
       redirectToDefaultLocale: false,
     },
   },
-  integrations: [tailwind({
-    applyBaseStyles: false,
-  }), mdx(), react(), icon()],
+  integrations: [
+    tailwind({
+      applyBaseStyles: false,
+    }),
+    mdx(),
+    react(),
+    icon(),
+  ],
 });
