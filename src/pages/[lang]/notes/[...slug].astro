@@ -4,6 +4,8 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "@/components/Prose.astro";
 import { multiFormatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
+import BaseRightAside from "@/components/BaseRightAside.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 
 type Props = {
   note: CollectionEntry<"notes">;
@@ -28,13 +30,17 @@ if (!note) {
   return Astro.redirect(`/${lang}/404`);
 }
 
-const { Content, remarkPluginFrontmatter } = await note.render();
+const { Content, remarkPluginFrontmatter, headings } = await note.render();
 const title: string = note.data.title;
 const date = multiFormatDate(note.data.pubDate);
+
+const validHeadings = headings.filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
 ---
 
 <ArticleLayout {title}>
-  <section class="mt-14">
+  <div class="mt-14">
     <ul class="mb-5 flex flex-wrap gap-2">
       {
         note.data.tags.map((tag) => {
@@ -99,7 +105,15 @@ const date = multiFormatDate(note.data.pubDate);
         </div>
       )
     }
-  </section>
+  </div>
+
+  {
+    validHeadings.length > 0 && (
+      <BaseRightAside>
+        <TableOfContents headings={validHeadings} />
+      </BaseRightAside>
+    )
+  }
 
   <Prose className="mt-12">
     <Content />

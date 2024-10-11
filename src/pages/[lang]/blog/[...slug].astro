@@ -6,7 +6,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Prose from "@/components/Prose.astro";
 import { formatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
-import BaseRightSide from "@/components/BaseRightAside.astro";
+import BaseRightAside from "@/components/BaseRightAside.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 
 type Props = {
@@ -90,9 +90,9 @@ const validHeadings = headings.filter(
 
   {
     validHeadings.length > 0 && (
-      <BaseRightSide>
+      <BaseRightAside>
         <TableOfContents headings={validHeadings} />
-      </BaseRightSide>
+      </BaseRightAside>
     )
   }
 
