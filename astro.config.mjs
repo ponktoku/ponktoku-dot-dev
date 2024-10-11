@@ -6,7 +6,9 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { toString } from "hast-util-to-string";
 import { h } from "hastscript";
 import sectionize from "@hbsnow/rehype-sectionize";
-import astroExpressiveCode from "astro-expressive-code";
+import rehypePrettyCode from "rehype-pretty-code";
+import { transformerCopyButton } from "@rehype-pretty/transformers";
+import moonlightTheme from "./public/theme/moonlight-ii.json";
 
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
@@ -51,10 +53,10 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
+    react(),
+    icon(),
     mdx({
-      shikiConfig: {
-        theme: "one-dark-pro",
-      },
+      syntaxHighlight: false,
       remarkPlugins: [remarkReadingTime],
       rehypePlugins: [
         sectionize,
@@ -80,9 +82,19 @@ export default defineConfig({
             properties: { class: "anchor-link" },
           },
         ],
+        [
+          rehypePrettyCode,
+          {
+            theme: moonlightTheme,
+            transformers: [
+              transformerCopyButton({
+                visibility: "hover",
+                feedbackDuration: 2_500,
+              }),
+            ],
+          },
+        ],
       ],
     }),
-    react(),
-    icon(),
   ],
 });
