@@ -49,3 +49,50 @@ const { title, description } = Astro.props.frontmatter || Astro.props;
     document.addEventListener("DOMContentLoaded", addIntersectionObserver);
   </script>
 </BaseLayout>
+
+<!-- Styles for rehype-pretty-code -->
+<style is:global>
+  code[data-line-numbers] {
+    counter-reset: line;
+  }
+
+  code[data-line-numbers] > [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    @apply mr-4 inline-block w-4 text-right text-gray-500;
+  }
+
+  [data-highlighted-line] {
+    background: rgba(200, 200, 255, 0.1);
+    @apply border-l-blue-400;
+  }
+
+  [data-highlighted-chars] {
+    @apply rounded bg-zinc-600/50;
+    box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+  }
+
+  [data-chars-id] {
+    @apply border-b-2 p-1 shadow-none;
+  }
+
+  [data-chars-id] span {
+    @apply !text-inherit;
+  }
+
+  [data-chars-id="v"] {
+    @apply border-b-pink-600 bg-rose-800/50 font-bold !text-pink-300;
+  }
+
+  [data-chars-id="s"] {
+    @apply border-b-yellow-600 bg-yellow-800/50 font-bold !text-yellow-300;
+  }
+
+  [data-chars-id="i"] {
+    @apply border-b-purple-600 bg-purple-800/50 font-bold !text-purple-200;
+  }
+
+  /* [data-rehype-pretty-code-title] {
+    @apply rounded-t-lg bg-zinc-700 px-3 py-2 text-sm font-semibold text-zinc-200;
+  } */
+</style>
