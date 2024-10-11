@@ -6,6 +6,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { toString } from "hast-util-to-string";
 import { h } from "hastscript";
+import sectionize from "@hbsnow/rehype-sectionize";
 
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
@@ -56,6 +57,7 @@ export default defineConfig({
         [remarkToc, { heading: "contents", maxDepth: 3 }],
       ],
       rehypePlugins: [
+        sectionize,
         rehypeSlug,
         [
           rehypeAutolinkHeadings,
