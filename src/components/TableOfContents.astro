@@ -19,10 +19,10 @@ const validHeadings = headings.filter(
 <ul>
   {
     validHeadings.map((heading) => (
-      <li class="my-2 text-sm underline decoration-hool-white-200 underline-offset-4 dark:decoration-ak-black-300">
+      <li class="my-2 text-sm font-light underline decoration-hool-white-200 underline-offset-4 dark:decoration-ak-black-300">
         <a
           class={cn(
-            "inline-block rounded-sm transition hover:bg-hool-white-200 hover:text-black hover:no-underline dark:hover:bg-[#262626] dark:hover:text-white",
+            "toc-link inline-block rounded-sm transition hover:bg-hool-white-200 hover:text-black hover:no-underline dark:hover:bg-[#262626] dark:hover:text-white",
             { "ml-2": heading.depth === 3 },
           )}
           href={`#${heading.slug}`}
