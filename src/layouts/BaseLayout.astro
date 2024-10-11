@@ -21,7 +21,6 @@ interface Props {
   frontmatter?: undefined;
 }
 
-// TODO: Add Astro.frontmatter access? Was getting an error? Don't know why
 const { title, description } = Astro.props.frontmatter || Astro.props;
 
 const locale = Astro.currentLocale as Lang;
@@ -47,7 +46,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <section class="mx-auto max-w-screen-md" id="base-section">
       <Header />
 
-      <main class="min-h-[87vh] px-6 pb-6">
+      <main class="min-h-[87vh] animate-fade px-6 pb-6">
         <slot />
       </main>
 
