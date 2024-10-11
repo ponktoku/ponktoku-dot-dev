@@ -10,7 +10,7 @@ export const SITE_DESCRIPTION: string | Multilingual = {
   ja: "Danny Baoの個人ウェブサイト",
 };
 
-export const TWITTER_ACCOUNT: string | Multilingual = "@ponktoku";
+export const TWITTER_ACCOUNT: string | Multilingual = "@ponktokuDotDev";
 
 export const NOT_TRANSLATED_CAUTION: string | Multilingual = {
   en: "This page is not available in your language.",
