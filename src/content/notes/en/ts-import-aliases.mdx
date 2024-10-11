@@ -22,7 +22,7 @@ The answer is most likely TypeScript path aliases also called import aliases.
 
 The first step will be to change your `tsconfig.json` file to add the following snippet.
 
-```json
+```json title="tsconfig.json" {3-6}
 {
   "compilerOptions": {
     "baseUrl": ".",
@@ -43,7 +43,7 @@ _Note:_ You can customise your import paths to whatever you need or like. You ca
 
 In this example we've added 2 other import aliases that go to the `components` folder and the `lib` folder directly. This is useful for frequently imported modules.
 
-```json
+```json title="tsconfig.json" {6-7, 13}
 {
 	"compilerOptions": {
 		"baseUrl": ".",
@@ -56,7 +56,7 @@ In this example we've added 2 other import aliases that go to the `components` f
 }
 
 // Example usage
-import { myUtility } from "@/lib/utils";
+import { myUtility } from "@lib/utils";
 ```
 
 ## Resources
