@@ -1,12 +1,12 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
-import remarkToc from "remark-toc";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { toString } from "hast-util-to-string";
 import { h } from "hastscript";
 import sectionize from "@hbsnow/rehype-sectionize";
+import astroExpressiveCode from "astro-expressive-code";
 
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
@@ -52,10 +52,10 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     mdx({
-      remarkPlugins: [
-        remarkReadingTime,
-        [remarkToc, { heading: "contents", maxDepth: 3 }],
-      ],
+      shikiConfig: {
+        theme: "one-dark-pro",
+      },
+      remarkPlugins: [remarkReadingTime],
       rehypePlugins: [
         sectionize,
         rehypeSlug,
