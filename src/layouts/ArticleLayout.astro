@@ -19,4 +19,33 @@ const { title, description } = Astro.props.frontmatter || Astro.props;
   </article>
 
   <script src="@/scripts/copyAnchorLink.js"></script>
+
+  <script>
+    function addIntersectionObserver() {
+      const observer = new IntersectionObserver((sections) => {
+        sections.forEach((section) => {
+          const heading = section.target.querySelector("h2, h3");
+          if (!heading) return;
+
+          const id = heading.getAttribute("id");
+
+          const link = document.querySelector(`a.toc-link[href="#${id}"]`);
+          if (!link) return;
+
+          const addRemove = section.intersectionRatio > 0 ? "add" : "remove";
+          link.classList[addRemove](
+            "text-black",
+            "dark:text-white",
+            "font-semibold",
+          );
+        });
+      });
+
+      document.querySelectorAll("section").forEach((section) => {
+        observer.observe(section);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", addIntersectionObserver);
+  </script>
 </BaseLayout>
