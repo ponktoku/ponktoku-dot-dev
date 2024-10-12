@@ -9,6 +9,7 @@ import sectionize from "@hbsnow/rehype-sectionize";
 import rehypePrettyCode from "rehype-pretty-code";
 import { transformerCopyButton } from "@rehype-pretty/transformers";
 import moonlightTheme from "./public/theme/moonlight-ii.json";
+import pagefind from "astro-pagefind";
 
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
@@ -32,7 +33,7 @@ const AnchorLinkIcon = h(
   }),
 );
 
-const createSROnlyLabel = (text) => {
+const createSROnlyLabel = (/** @type {string | number | boolean} */ text) => {
   const node = h("span.sr-only", `Section titled ${encodeURIComponent(text)}`);
   node.properties["is:raw"] = true;
   return node;
@@ -40,7 +41,9 @@ const createSROnlyLabel = (text) => {
 
 // https://astro.build/config
 export default defineConfig({
-  markdown: {},
+  build: {
+    format: "file",
+  },
   i18n: {
     defaultLocale: "en",
     locales: ["en", "ja"],
@@ -50,6 +53,7 @@ export default defineConfig({
     },
   },
   integrations: [
+    pagefind(),
     tailwind({
       applyBaseStyles: false,
     }),
@@ -65,10 +69,12 @@ export default defineConfig({
           rehypeAutolinkHeadings,
           {
             behavior: "append",
+            // @ts-ignore
             group: ({ tagName }) =>
               h(`div.heading-wrapper.level-${tagName}`, {
                 tabIndex: -1,
               }),
+            // @ts-ignore
             content: (heading) => [
               h(
                 `span.anchor-icon`,
