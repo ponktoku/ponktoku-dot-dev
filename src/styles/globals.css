@@ -129,6 +129,7 @@ body {
   }
 }
 
+/* For the heading anchor links */
 @layer components {
   article *:is(h1, h2, h3, h4, h5, h6) {
     @apply flex scroll-mt-20 items-center gap-2;
@@ -141,4 +142,29 @@ body {
 
 .hover\:filter-none:hover {
   filter: none;
+}
+
+/* Custom toast animation */
+@keyframes scaleUpDown {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  10% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  90% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.custom-toast {
+  animation: scaleUpDown 2s ease-in-out; /* Match the duration to the toast's duration */
+  transform-origin: center;
 }
