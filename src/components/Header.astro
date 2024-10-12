@@ -259,9 +259,9 @@ const firstPath = currentPath.split(`/${locale}`)[1];
   const headerTitle = document.getElementById("header-title");
   const headerMenu = document.getElementById("header-menu");
 
-  hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("hamburger-open");
-    mobileMenu.classList.toggle("-translate-x-full");
+  hamburger?.addEventListener("click", () => {
+    hamburger?.classList.toggle("hamburger-open");
+    mobileMenu?.classList.toggle("-translate-x-full");
     headerTitle?.classList.toggle("header-sticky");
     headerMenu?.classList.toggle("header-sticky");
   });
