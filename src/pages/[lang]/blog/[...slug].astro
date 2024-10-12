@@ -8,10 +8,11 @@ import { formatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
 import BaseRightAside from "@/components/BaseRightAside.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
+import { type THeadings } from "@/lib/types";
 
-type Props = {
-  post: CollectionEntry<"blog">;
-};
+// type Props = {
+//   post: CollectionEntry<"blog">;
+// };
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
@@ -38,8 +39,10 @@ const title: string = post.data.title;
 const date = formatDate(post.data.pubDate);
 
 const validHeadings = headings.filter(
-  (heading) => heading.depth === 2 || heading.depth === 3,
+  (heading: THeadings) => heading.depth === 2 || heading.depth === 3,
 );
+
+console.log(validHeadings);
 ---
 
 <ArticleLayout {title}>

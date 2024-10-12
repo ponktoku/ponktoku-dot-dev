@@ -6,10 +6,11 @@ import { multiFormatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
 import BaseRightAside from "@/components/BaseRightAside.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
+import { type THeadings } from "@/lib/types";
 
-type Props = {
-  note: CollectionEntry<"notes">;
-};
+// interface Props {
+//   note: CollectionEntry<"notes">;
+// }
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
@@ -35,7 +36,7 @@ const title: string = note.data.title;
 const date = multiFormatDate(note.data.pubDate);
 
 const validHeadings = headings.filter(
-  (heading) => heading.depth === 2 || heading.depth === 3,
+  (heading: THeadings) => heading.depth === 2 || heading.depth === 3,
 );
 ---
 
