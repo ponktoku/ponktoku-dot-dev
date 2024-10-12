@@ -41,8 +41,6 @@ const date = formatDate(post.data.pubDate);
 const validHeadings = headings.filter(
   (heading: THeadings) => heading.depth === 2 || heading.depth === 3,
 );
-
-console.log(validHeadings);
 ---
 
 <ArticleLayout {title}>
