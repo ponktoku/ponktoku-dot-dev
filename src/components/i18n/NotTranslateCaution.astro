@@ -3,6 +3,7 @@
 
 import { useTranslations, type Lang } from "@/lib/i18n";
 import { NOT_TRANSLATED_CAUTION } from "@/lib/consts";
+import { WarningIcon } from "@/components/ui/icons";
 
 interface Props {
   usedLangs: Lang[];
@@ -15,27 +16,9 @@ const currentLocale = Astro.currentLocale as Lang;
 
 {
   !usedLangs.includes(currentLocale) && (
-    <p>
-      <span class="material-icons-sharp">warning</span>
+    <p class="mb-3 flex items-center justify-center rounded-md bg-red-700 p-2 text-xl text-white">
+      <WarningIcon className="inline-block w-5 h-5 mr-4" />
       {t(NOT_TRANSLATED_CAUTION)}
     </p>
   )
 }
-
-<style>
-  p {
-    padding: 0.5em;
-    margin-block: var(--sp-m);
-    color: var(--color-base);
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    font-size: 1.2em;
-    background: var(--color-caution);
-    border-radius: 6px;
-  }
-  span {
-    margin-inline-end: 0.5em;
-    vertical-align: middle;
-    opacity: 0.8;
-  }
-</style>
