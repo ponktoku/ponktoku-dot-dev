@@ -41,16 +41,19 @@ const createSROnlyLabel = (/** @type {string | number | boolean} */ text) => {
 
 // https://astro.build/config
 export default defineConfig({
-  build: {
-    format: "file",
-  },
   i18n: {
     defaultLocale: "en",
     locales: ["en", "ja"],
     routing: {
       prefixDefaultLocale: true,
-      redirectToDefaultLocale: false,
+      redirectToDefaultLocale: true,
     },
+    fallback: {
+      ja: "en",
+    },
+  },
+  build: {
+    format: "file",
   },
   integrations: [
     pagefind(),
