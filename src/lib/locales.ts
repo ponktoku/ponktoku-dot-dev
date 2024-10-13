@@ -5,9 +5,11 @@ export const DEFAULT_LOCALE_SETTING = "en";
 export const LOCALES_SETTING: LocaleSetting = {
   en: {
     label: "English",
+    // lang: "en",
   },
   ja: {
     label: "日本語",
+    // lang: "ja",
   },
 };
 
