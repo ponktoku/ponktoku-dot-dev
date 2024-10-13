@@ -13,22 +13,25 @@ import {
   getLocalePaths,
   type Lang,
 } from "@/lib/i18n";
-const t = useTranslations(Astro.currentLocale as Lang);
 
 interface Props {
   title?: string;
   description?: string;
   frontmatter?: undefined;
+  lang?: string;
 }
 
-const { title, description } = Astro.props.frontmatter || Astro.props;
+const { title, description, lang } = Astro.props.frontmatter || Astro.props;
 
-const locale = Astro.currentLocale as Lang;
+// console.log("Current locale:", Astro.currentLocale);
+const locale = lang || (Astro.currentLocale as Lang);
+const t = useTranslations(locale);
 const localeTitle = title ? `${title} | ${t(SITE_TITLE)}` : t(SITE_TITLE);
 const localeDescription = description || t(SITE_DESCRIPTION);
+// lang={LOCALES[locale].lang || locale} dir={LOCALES[locale].dir || null}
 ---
 
-<html lang={LOCALES[locale].lang || locale} dir={LOCALES[locale].dir || null}>
+<html lang={LOCALES[locale]?.lang || locale} dir={LOCALES[locale]?.dir || null}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,8 +40,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <meta name="description" content={localeDescription} />
     <title>{localeTitle}</title>
 
-    <!-- Generate alternative language links -->
-    {
+    <!-- {
       getLocalePaths(Astro.url).map((props) => (
         <link
           rel="alternate"
@@ -48,7 +50,6 @@ const localeDescription = description || t(SITE_DESCRIPTION);
       ))
     }
 
-    <!-- OGP -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={localeTitle} />
     <meta property="og:site_name" content={localeTitle} />
@@ -58,7 +59,6 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content={t(TWITTER_ACCOUNT)} />
 
-    <!-- External Resource -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -73,7 +73,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;800&display=swap"
       media="print"
       onload={`this.media='all'`}
-    />
+    /> -->
 
     <!-- Scripts -->
     <LocaleHtmlHead />
