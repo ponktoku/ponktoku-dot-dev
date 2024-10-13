@@ -59,7 +59,7 @@ export const worksJa = [
     title: "ponktoku.dev",
     description: "初めてインターネットに公開したウェブサイト",
     image: "@/assets/works/homepage_thumb.jpeg",
-    url: "ponktoku-dev",
+    url: "/ja/works/ponktoku-dev",
     showLinkSvg: false,
     workBadge: "personal project",
   },
