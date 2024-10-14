@@ -6,7 +6,7 @@ The second iteration of my personal website (ponktoku.dev) built with [Astro](ht
 
 ## Tech Stack
 
-- **Frontend Framework**: [Astrojs](https://astro.build/) - A web framework for content driven websites with hybrid, static & server side rendering
+- **Frontend Framework**: [Astro](https://astro.build/) - A web framework for content driven websites with hybrid, static & server side rendering
 - **UI**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **Hosting**: [Vercel](https://github.com/vercel/vercel) - A cloud platform for static sites and serverless functions
 
