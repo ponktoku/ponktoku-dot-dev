@@ -54,9 +54,9 @@ export default defineConfig({
       ja: "en",
     },
   },
-  build: {
-    format: "file",
-  },
+  // build: {
+  //   format: "directory",
+  // },
   integrations: [
     pagefind(),
     tailwind({
