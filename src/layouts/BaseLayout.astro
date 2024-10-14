@@ -23,12 +23,10 @@ interface Props {
 
 const { title, description, lang } = Astro.props.frontmatter || Astro.props;
 
-// console.log("Current locale:", Astro.currentLocale);
 const locale = lang || (Astro.currentLocale as Lang);
 const t = useTranslations(locale);
 const localeTitle = title ? `${title} | ${t(SITE_TITLE)}` : t(SITE_TITLE);
 const localeDescription = description || t(SITE_DESCRIPTION);
-// lang={LOCALES[locale].lang || locale} dir={LOCALES[locale].dir || null}
 ---
 
 <html lang={LOCALES[locale]?.lang || locale} dir={LOCALES[locale]?.dir || null}>

@@ -15,56 +15,6 @@ type LocaleDropdownProps = {
   currentLocale?: string;
 };
 
-// export default function LocaleDropdown({
-//   url,
-//   currentLocale,
-// }: LocaleDropdownProps) {
-//   const handleLocaleChange = (path: string, lang: string) => {
-//     // Avoid unnecessary reload if user selects the current language
-//     if (url.pathname === `/${lang}/`) return;
-
-//     // Save the selected language to localStorage
-//     localStorage.setItem("selectedLang", lang);
-
-//     // Ensure we strip out any potential .html suffix from the path
-//     const newPath = path.replace(/\.html$/, "").endsWith("/")
-//       ? path
-//       : `${path}/`;
-
-//     // Redirect to the new path
-//     window.location.href = newPath;
-//   };
-
-//   console.log(getLocalePaths(url));
-
-//   return (
-//     <DropdownMenu modal={false}>
-//       <DropdownMenuTrigger asChild>
-//         <Button variant="ghost" size="icon">
-//           <HeroiconsLanguage className="h-5 w-5" />
-//           <span className="sr-only">select language</span>
-//         </Button>
-//       </DropdownMenuTrigger>
-//       <DropdownMenuContent align="end">
-//         {getLocalePaths(url).map(({ path, lang }) => (
-//           <DropdownMenuItem
-//             key={lang}
-//             className="justify-between capitalize"
-//             onClick={() => handleLocaleChange(path, lang)}
-//           >
-//             {LOCALES[lang].label}
-//             {(path === url.pathname ||
-//               url.pathname === `/${lang}` ||
-//               url.pathname === `/${lang}/`) && <DotFilledIcon />}
-//           </DropdownMenuItem>
-//         ))}
-//       </DropdownMenuContent>
-//     </DropdownMenu>
-//   );
-// }
-
-// 2 below
-
 export default function LocaleDropdown({
   url,
   currentLocale,
@@ -100,41 +50,3 @@ export default function LocaleDropdown({
     </DropdownMenu>
   );
 }
-
-// 3 below
-
-// export default function LocaleDropdown({
-//   url,
-//   currentLocale,
-// }: LocaleDropdownProps) {
-//   const handleLocaleChange = (path: string, lang: string) => {
-//     localStorage.setItem("selectedLang", lang);
-//     window.location.href = path;
-//   };
-
-//   console.log("Current pathname:", url.pathname);
-//   console.log(getLocalePaths(url));
-
-//   return (
-//     <DropdownMenu modal={false}>
-//       <DropdownMenuTrigger asChild>
-//         <Button variant="ghost" size="icon">
-//           <HeroiconsLanguage className="h-5 w-5" />
-//           <span className="sr-only">select language</span>
-//         </Button>
-//       </DropdownMenuTrigger>
-//       <DropdownMenuContent align="end">
-//         {getLocalePaths(url).map(({ path, lang }) => (
-//           <DropdownMenuItem
-//             key={lang}
-//             className="justify-between capitalize"
-//             onClick={() => handleLocaleChange(path, lang)}
-//           >
-//             {LOCALES[lang].label}
-//             {path === url.pathname && <DotFilledIcon />}
-//           </DropdownMenuItem>
-//         ))}
-//       </DropdownMenuContent>
-//     </DropdownMenu>
-//   );
-// }
