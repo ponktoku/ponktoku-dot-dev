@@ -9,7 +9,6 @@ import sectionize from "@hbsnow/rehype-sectionize";
 import rehypePrettyCode from "rehype-pretty-code";
 import { transformerCopyButton } from "@rehype-pretty/transformers";
 import moonlightTheme from "./public/theme/moonlight-ii.json";
-import pagefind from "astro-pagefind";
 
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
@@ -58,7 +57,6 @@ export default defineConfig({
   //   format: "directory",
   // },
   integrations: [
-    pagefind(),
     tailwind({
       applyBaseStyles: false,
     }),
