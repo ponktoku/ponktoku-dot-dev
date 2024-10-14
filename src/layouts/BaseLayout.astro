@@ -38,7 +38,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <meta name="description" content={localeDescription} />
     <title>{localeTitle}</title>
 
-    <!-- {
+    {
       getLocalePaths(Astro.url).map((props) => (
         <link
           rel="alternate"
@@ -71,7 +71,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;800&display=swap"
       media="print"
       onload={`this.media='all'`}
-    /> -->
+    />
 
     <!-- Scripts -->
     <LocaleHtmlHead />
