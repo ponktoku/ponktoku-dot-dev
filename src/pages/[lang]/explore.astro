@@ -2,7 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { LOCALES, useTranslations, type Lang } from "@/lib/i18n";
 import { getCollection } from "astro:content";
-import Search from "astro-pagefind/components/Search";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
@@ -75,10 +74,5 @@ export const getStaticPaths = () =>
       {t({ en: "SEARCH", ja: "検索" })}
     </h3>
     <div>In development...</div>
-    <Search
-      id="search"
-      className="pagefind-ui"
-      uiOptions={{ showImages: false }}
-    />
   </section>
 </BaseLayout>
