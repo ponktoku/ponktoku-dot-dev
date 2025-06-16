@@ -1,0 +1,133 @@
+---
+title: "(Terminal) Add to PATH Variable on macOS"
+description: "How to add a directory to the PATH Variable on macOS"
+pubDate: 2025-06-16
+tags: ["Terminal", "PATH", "zsh", "macOS"]
+---
+
+- [MacOS: Adding a directory your PATH Variable by Brian Treftz](https://medium.com/@B-Treftz/macos-adding-a-directory-to-your-path-fe7f19edd2f7)
+- [Stack Overflow - Adding a new entry to the PATH variable in ZSH](https://stackoverflow.com/questions/11530090/adding-a-new-entry-to-the-path-variable-in-zsh)
+- [Understanding the PATH variable by Janel Brandon](https://janelbrandon.medium.com/understanding-the-path-variable-6eae0936e976)
+
+Here's how to add a directory to your PATH variable on macOS in the terminal.
+
+## What is the PATH environment variable?
+
+The PATH variable is an environment variable in all operating systems (Mac, Windows and Linux) that tells the terminal where executable files reside on your system when you type a command in the terminal.
+
+Developers commonly use environment variables in projects (usually in a `.env` file) to store sensitive information used by their applications.
+Similarly, operating systems need to store information like full path variables to safeguard you from executing something you don't intend to execute.
+
+## Step 1 - See the PATH set on your system
+
+In the terminal, to see the directories in your PATH variable use the command:
+
+```bash
+echo $PATH
+```
+
+You should see a long hard to read string which looks something like this (the directories listed for you will differ)
+
+```bash
+/Applications/WebStorm.app/Contents/MacOS:/Users/danny/.console-ninja/.bin:/user/local/bin
+```
+
+Each PATH is separated by colons. But it can be a bit difficult to read and see each path this way so here is a command to format of the output by colon each on a new line.
+
+```bash
+$ echo -e ${PATH//:/\\n}
+```
+
+## Step 2 - System wide PATH or Shell specific path
+
+Now you have a choice of adding the directory you want to add either as a system wide PATH or a shell-specific PATH.
+There are a number of config files containing PATH information. Here are some examples:
+
+```bash
+# System-wide
+/etc/paths
+
+# Bash
+~/.bash_profile
+~/.bashrc
+
+# zsh
+~/.zprofile
+~/.zshenv
+```
+
+## Step 3 - Add the path
+
+Let's use an example to show how to add a path system wide in `/etc/paths` and in zsh inside the `.zshrc` file.
+This is the path I want to add as a PATH variable:
+
+```bash
+/Applications/WebStorm.app/Contents/MacOS
+```
+
+### Add path as system-wide variable
+
+To add a path to the system config file `/etc/paths` you will need superuser (root) permissions to edit the file.
+You can do this using the `sudo` command along with opening the config file in a text editor of your choice. For example
+
+```bash
+# Using nano (basic line based text editor usually preinstalled on most OS)
+sudo nano /etc/paths
+
+# VSCode
+sudo code /etc/paths
+
+# nvim
+sudo nvim /etc/paths
+```
+
+![Show directory paths contained in /etc/paths](@/assets/notes/terminal-path-variable/sudo-nvim-etc-paths.jpeg)
+
+Just add your new path to the list above on a new line. Save your file and reload your terminal session by either using the built-in shell command `source /etc/paths` or quitting and re-opening your terminal.
+
+Use the command `$ echo -e ${PATH//:/\\n}` to confirm that the new directory path has been added.
+
+### Add path to zsh (shell-specific)
+
+You can add a PATH variable to zsh in the `.zshrc` in your HOME directory. Find your HOME directory using the command `echo $HOME` usually it's something like `/Users/username`.
+
+Create a `.zshrc` if you haven't already and add this line:
+
+```bash title=".zshrc"
+export PATH="/Applications/WebStorm.app/Contents/MacOS:$PATH"
+
+# Substitute the path with your own path
+export PATH=$PATH:/usr/local/git/bin
+```
+
+Reload your terminal session and check for the new PATH added.
+
+**IMPORTANT! It is very important that you include $PATH somewhere in that export statement, usually at the beginning.**
+
+> If you don't include the default PATH by including $PATH in your export statement in an initialisation file, you will delete the system directories from the PATH and everything will break! - Janel Brandon
+
+---
+
+You might have some noticed that one of the lines uses quotation marks and both have the `$PATH` at different places in the export statement. Is there a difference?
+
+## Aside - Enclose the path in quotation marks
+
+It is recommended to enclose the path in quotation marks, especially if the path contains:
+
+- Spaces (e.g. `/Applications/Some App/bin`)
+- Special characters (e.g. & or brackets)
+
+## Aside - $PATH at the start vs end
+
+- Prepending (`/new/path:$PATH`) gives the new path higher priority. The shell checks it first.
+- Appending (`$PATH:/new/path`) gives it lower priority. The shell checks it last.
+
+See [Stack Overflow - $PATH at the beginning or end of a PATH variable](https://stackoverflow.com/questions/25235357/path-at-end-or-beginning-of-path-export-in-bash-profile-for-git-on-mac)
+
+**Is there a case where the priority would matter?**
+
+You may accidentally override system commands. If you prepend a path that contains custom versions of common commands like `ls` or `cd` you could run the wrong binary without realising it or break scripts that rely on expected behaviour of the system command.
+
+A comment by Magnus Bäck from that Stack Overflow thread.
+
+> Paths are evaluated in the order given. One should also be weary that listing too many uncommon special-case paths before commonly used ones like /bin and /usr/bin could have a performance impact (especially if network file systems are involved). I only prepend paths if I really need to override existing commands, which is quite uncommon.
