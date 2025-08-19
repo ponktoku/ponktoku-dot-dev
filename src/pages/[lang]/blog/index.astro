@@ -8,7 +8,7 @@ const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const allPosts = (await getCollection("blog"))
-  .filter((post) => post.slug.split("/")[0] === locale)
+  .filter((post) => post.id.split("/")[0] === locale)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const title = t({
@@ -37,7 +37,7 @@ export const getStaticPaths = () =>
     <ul>
       {
         allPosts.map((post) => {
-          const [, ...slug] = post.slug.split("/");
+          const [, ...slug] = post.id.split("/");
 
           return (
             <li class="border-b border-hool-white-300 dark:border-ak-black-300">

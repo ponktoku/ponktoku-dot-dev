@@ -1,6 +1,6 @@
 ---
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry, render } from "astro:content";
 import Prose from "@/components/Prose.astro";
 import { multiFormatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
   const notes: CollectionEntry<"notes">[] = await getCollection("notes");
 
   return notes.map((note) => {
-    const [lang, ...slug] = note.slug.split("/");
+    const [lang, ...slug] = note.id.split("/");
     return { params: { lang, slug: slug.join("/") || undefined }, props: note };
   });
 }
@@ -31,7 +31,7 @@ if (!note) {
   return Astro.redirect(`/${lang}/404`);
 }
 
-const { Content, remarkPluginFrontmatter, headings } = await note.render();
+const { Content, remarkPluginFrontmatter, headings } = await render(note);
 const title: string = note.data.title;
 const date = multiFormatDate(note.data.pubDate);
 

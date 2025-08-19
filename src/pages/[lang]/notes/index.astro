@@ -8,7 +8,7 @@ const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const allNotes = (await getCollection("notes"))
-  .filter((note) => note.slug.split("/")[0] === locale)
+  .filter((note) => note.id.split("/")[0] === locale)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const title = t({
@@ -37,7 +37,7 @@ export const getStaticPaths = () =>
     <ul>
       {
         allNotes.map((note, index, notes) => {
-          const [, ...slug] = note.slug.split("/");
+          const [, ...slug] = note.id.split("/");
           const year = new Date(note.data.pubDate).getFullYear();
           const prevNote = notes[index - 1];
           const prevYear =

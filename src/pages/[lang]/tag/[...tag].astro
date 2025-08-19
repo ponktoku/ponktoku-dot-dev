@@ -21,7 +21,7 @@ export async function getStaticPaths() {
   // Group notes by language
   const notesByLang: Record<Lang, CollectionEntry<"notes">[]> = notes.reduce(
     (acc, note) => {
-      const [lang] = note.slug.split("/") as [Lang, ...string[]];
+      const [lang] = note.id.split("/") as [Lang, ...string[]];
       if (!acc[lang]) acc[lang] = [];
       acc[lang].push(note);
       return acc;
@@ -78,7 +78,7 @@ const title = {
     <ul>
       {
         notes.map((note, index, notes) => {
-          const [, ...slug] = note.slug.split("/");
+          const [, ...slug] = note.id.split("/");
           const year = new Date(note.data.pubDate).getFullYear();
           const prevNote = notes[index - 1];
           const prevYear =

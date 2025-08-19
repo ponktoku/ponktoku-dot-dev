@@ -2,7 +2,7 @@
 // This file is responsible for the display of the Content (blog posts)
 
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry, render } from "astro:content";
 import Prose from "@/components/Prose.astro";
 import { formatDate } from "@/lib/utils";
 import { useTranslations, type Lang } from "@/lib/i18n";
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
   const posts: CollectionEntry<"blog">[] = await getCollection("blog");
 
   return posts.map((post) => {
-    const [lang, ...slug] = post.slug.split("/");
+    const [lang, ...slug] = post.id.split("/");
     return { params: { lang, slug: slug.join("/") || undefined }, props: post };
   });
 }
@@ -34,7 +34,7 @@ if (!post) {
 }
 
 // TODO: Find issue with types and fix
-const { Content, remarkPluginFrontmatter, headings } = await post.render();
+const { Content, remarkPluginFrontmatter, headings } = await render(post);
 const title: string = post.data.title;
 const date = formatDate(post.data.pubDate);
 

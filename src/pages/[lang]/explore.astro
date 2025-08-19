@@ -7,7 +7,7 @@ const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const notes = (await getCollection("notes")).filter(
-  (post) => post.slug.split("/")[0] === locale,
+  (post) => post.id.split("/")[0] === locale,
 );
 
 const tagCounts = notes.reduce(

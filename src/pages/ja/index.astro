@@ -15,14 +15,14 @@ const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const blogPosts: CollectionEntry<"blog">[] = (await getCollection("blog"))
-  .filter((post) => post.slug.split("/")[0] === locale)
+  .filter((post) => post.id.split("/")[0] === locale)
   .sort(
     (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
       b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
   );
 
 const notes: CollectionEntry<"notes">[] = (await getCollection("notes"))
-  .filter((post) => post.slug.split("/")[0] === locale)
+  .filter((post) => post.id.split("/")[0] === locale)
   .sort(
     (a: CollectionEntry<"notes">, b: CollectionEntry<"notes">) =>
       b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -161,7 +161,7 @@ const { lang } = Astro.params;
     <ul class="mt-3">
       {
         recentBlogPosts.map((post) => {
-          const [, ...slug] = post.slug.split("/");
+          const [, ...slug] = post.id.split("/");
 
           return (
             <li>
@@ -204,7 +204,7 @@ const { lang } = Astro.params;
     <ul class="mt-3">
       {
         recentNotes.map((note) => {
-          const [, ...slug] = note.slug.split("/");
+          const [, ...slug] = note.id.split("/");
 
           return (
             <li>
