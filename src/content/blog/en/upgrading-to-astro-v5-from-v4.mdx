@@ -1,0 +1,83 @@
+---
+title: "Upgrading to Astro v5 from v4"
+description: "Upgrading ponktoku.dev to Astro v5"
+pubDate: 2025-08-20
+---
+
+I’m a bit late to the party, but [Astro.build](https://astro.build/) has released version 5. Along with it a guide to help users migrate from Astro v4 to Astro v5.
+
+- https://docs.astro.build/en/guides/upgrade-to/v5/
+
+The great thing the developers of Astro have done is make most of the changes just work out of the box and have backwards support for features that may soon be deprecated. When I first upgraded Astro and official integrations together with `pnpm dlx @astrojs/upgrade` I was expecting my website to break in some ways, but everything was working just fine out of the box.
+
+But there are still some changes to be made.
+
+## The Content Collections API v2 is now legacy
+
+That isn’t to say that Content Collections are completely gone; just updated. Astro v5 just has a new way to interact with out content collections that you need to change. For me this was the biggest change moving from v4 to v5.
+
+The Content Collections API was first introduced in Astro v2, but now Astro v5 introduces a new version of content collections using the **Content Layer API** which supposedly brings several performance improvements and added capabilities.
+
+Right now Astro v5 still supports the old (legacy) and new (Content Layer API) collections to exist in the same project, but there may be breaking changes to existing legacy collections. I imagine they will begin to phase out support for the old legacy content collections API as we move forward.
+
+**The Astro docs have step-by-step instructions to update existing collections:** https://docs.astro.build/en/guides/upgrade-to/v5/#what-should-i-do-2
+
+1. Move the content config file: Move it from `src/content/config.ts` to `src/content.config.ts`
+2. Update the collection definition with a `loader`:
+   1. The content layer no longer defines a type
+   2. Now it requires a `loader` field which states the `base` (location of your collection in your file tree) and a `pattern` (defines the collection entry filenames and extensions to match)
+   3. See the examples on the [documentation](https://docs.astro.build/en/guides/content-collections/#defining-the-collection-loader) and use https://globster.xyz/ to check your glob pattern
+3. Change references from `slug` to `id`:
+   1. Usually found in the `getStaticPaths()` function of a page when you fetch a collection.
+   2. Change
+4. Switch to the new `render()` function: Entries no longer have a `render()` method, as they are now serializable plain objects. Instead, import the `render()` function from `astro:content`.
+
+Step 3 was by far the biggest change I had to make throughout my site. Basically anytime you’re fetching your content collection for display I would have to change the property syntax. Luckily, Astro’s error page and my IDE were pretty helpful in finding these issues.
+
+I actually fetched my content collections on my homepage to display my latest blog posts and notes. So I had an error saying the we cannot read properties of undefined (reading ‘split’). Basically just a property naming change from `post.slug` to `post.id`.
+
+Since my site is i18n and has two language routes I had to rename properties in both the `en/index.astro` and `ja/index.astro` files.
+
+```jsx
+const blogPosts: CollectionEntry<"blog">[] = (await getCollection("blog"))
+  .filter((post) => post.slug.split("/")[0] === locale)
+  // replace with post.id.split()
+  ^
+  .sort(
+    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+```
+
+Step 4 was actually very small since the only files that render your content collections are the `[slug].astro` files.
+
+## Other changes of note
+
+### Removal of `hybrid` rendering mode
+
+My website (ponktoku.dev) was previously using the hybrid rendering but I switched to static rendering since I found myself not using any server-side rendering.
+
+In Astro v4, there were three rendering `output` modes. Now Astro v5.0 merges the `output: 'hybrid'` and `output: 'static'` configurations into one single configuration (now called `'static'`) that works the same way as the previous hybrid option.
+
+Now in the `astro.config.mjs` the output only supports static or server side rendering. Astro allows you to opt-out of pre-rendering in your static site.
+
+Any page route or endpoint can include `export const prerender = false` to be server-rendered on demand, while the rest of your site is statically generated.
+
+The output field specifies the output target for builds.
+
+- `'static'` - Prerender all your pages by default, outputting a completely static site if none of your pages opt out of prerendering.
+- `'server'` - Use server-side rendering (SSR) for all pages by default, always outputting a server-rendered site.
+
+### Removed underscore prefix to file names to prevent building a route
+
+Previously files prefixed by an underscore where excluded as a route. I remember briefly using this feature to test in prototyping with multiple versions of a file that I had lying around that I needed to clean up. Small thing not too much trouble.
+
+### Potential breaking changes to legacy Content Collections
+
+See the docs for the list: https://docs.astro.build/en/guides/upgrade-to/v5/#breaking-changes-to-legacy-content-and-data-collections
+
+- Sort order of generated collections is non-deterministic and platform-dependent. This means that if you are calling `getCollection()`, the order in which entries are returned may be different than before. If you need a specific order, you must sort the collection entries yourself.
+- The `key` argument of `getEntry(collection, key)` is typed as `string`, rather than having types for every entry.
+- Previously when calling `getEntry(collection, key)` with a static string as the key, the return type was not nullable. The type now includes `undefined` so you must check if the entry is defined before using the result or you will have type errors.
+
+Read the docs for many other changes: https://docs.astro.build/en/guides/upgrade-to/v5/
